@@ -105,9 +105,9 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 
     if (diffDays < 0) {
-      return { label: 'Quá hạn!', className: 'bg-rose-500/10 border-rose-500/30 text-rose-400 animate-pulse' }
+      return { label: 'Quá hạn!', className: 'bg-rose-500/10 border-rose-500/30 text-rose-500 dark:text-rose-400 animate-pulse' }
     } else if (diffDays <= 3) {
-      return { label: `Còn ${diffDays} ngày!`, className: 'bg-amber-500/10 border-amber-500/30 text-amber-400 font-bold' }
+      return { label: `Còn ${diffDays} ngày!`, className: 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400 font-bold' }
     }
     return null
   }
@@ -138,8 +138,9 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
             cy="18"
             r={r}
             fill="transparent"
-            stroke="#27272a" // zinc-800
+            stroke="currentColor"
             strokeWidth="4.5"
+            className="text-zinc-200 dark:text-zinc-800"
           />
           {/* Progress circle */}
           <circle
@@ -156,7 +157,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
           />
         </svg>
         <div className="absolute text-center">
-          <span className="text-xs font-bold text-white">{paidPercent.toFixed(0)}%</span>
+          <span className="text-xs font-bold text-slate-800 dark:text-white">{paidPercent.toFixed(0)}%</span>
           <p className="text-[7px] text-slate-500 font-bold uppercase tracking-wider">Đã trả</p>
         </div>
       </div>
@@ -164,16 +165,16 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full space-y-8">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-8 animate-page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">Nợ & Cho vay</h1>
-          <p className="text-slate-400 text-sm mt-1">Quản lý, trả bớt và thu hồi các khoản nợ phải trả/phải đòi</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Nợ & Cho vay</h1>
+          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Quản lý, trả bớt và thu hồi các khoản nợ phải trả/phải đòi</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-600/10 active:scale-[0.98] transition-all cursor-pointer text-sm"
+          className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-600/10 active:scale-[0.98] transition-all cursor-pointer text-sm"
         >
           <Plus className="w-4 h-4" />
           Tạo khoản mới
@@ -184,22 +185,22 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Debts column */}
         <div className="space-y-6">
-          <div className="bg-rose-500/5 border border-rose-500/10 rounded-3xl p-6 relative overflow-hidden">
+          <div className="bg-rose-500/[0.03] dark:bg-rose-500/5 border border-rose-500/10 dark:border-rose-500/10 rounded-3xl p-6 relative overflow-hidden shadow-sm dark:shadow-none">
             <div className="absolute top-0 right-0 w-24 h-24 bg-rose-500/5 rounded-full blur-2xl pointer-events-none" />
-            <h2 className="text-lg font-bold text-rose-400 mb-4 flex items-center gap-2">
+            <h2 className="text-lg font-bold text-rose-600 dark:text-rose-400 mb-4 flex items-center gap-2">
               <HandCoins className="w-5 h-5" />
               Khoản nợ cần trả (Debts)
             </h2>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-slate-850 dark:text-white">
               {formatCurrency(debts.reduce((acc, curr) => acc + Number(curr.remaining_amount), 0))}
             </div>
-            <p className="text-xs text-slate-400 mt-1">Tổng nợ gốc: {formatCurrency(debts.reduce((acc, curr) => acc + Number(curr.total_amount), 0))}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Tổng nợ gốc: {formatCurrency(debts.reduce((acc, curr) => acc + Number(curr.total_amount), 0))}</p>
           </div>
 
           {/* Debts List */}
           {debts.length === 0 ? (
-            <div className="text-center py-12 border border-dashed border-zinc-800 rounded-3xl bg-zinc-900/10">
-              <p className="text-sm text-slate-500">Tuyệt vời, bạn không có khoản nợ nào!</p>
+            <div className="text-center py-12 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-3xl bg-zinc-50 dark:bg-zinc-900/10">
+              <p className="text-sm text-slate-400 dark:text-slate-500">Tuyệt vời, bạn không có khoản nợ nào!</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -209,26 +210,26 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                 return (
                   <div 
                     key={item.id} 
-                    className={`bg-zinc-900/60 border rounded-3xl p-6 transition-all relative overflow-hidden ${
-                      isPaid ? 'border-zinc-800 opacity-60' : 'border-zinc-800'
+                    className={`bg-white dark:bg-zinc-900/60 border rounded-3xl p-6 transition-all relative overflow-hidden shadow-sm dark:shadow-none ${
+                      isPaid ? 'border-zinc-200 dark:border-zinc-800 opacity-60' : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700'
                     }`}
                   >
                     {/* Glowing status line */}
-                    <div className={`absolute top-0 left-0 w-1.5 h-full ${isPaid ? 'bg-zinc-700' : 'bg-rose-500'}`} />
+                    <div className={`absolute top-0 left-0 w-1.5 h-full ${isPaid ? 'bg-zinc-450 dark:bg-zinc-700' : 'bg-rose-500'}`} />
 
                     <div className="flex gap-4 items-start pl-2">
                       {renderPieChart(item)}
 
                       <div className="flex-1 space-y-1.5 min-w-0">
                         <div className="flex justify-between items-start gap-2">
-                          <h3 className="font-bold text-base text-white truncate">Nợ: {item.partner_name}</h3>
+                          <h3 className="font-bold text-base text-slate-800 dark:text-white truncate">Nợ: {item.partner_name}</h3>
                           {statusInfo && (
                             <span className={`text-[10px] px-2 py-0.5 rounded-full border shrink-0 ${statusInfo.className}`}>
                               {statusInfo.label}
                             </span>
                           )}
                           {isPaid && (
-                            <span className="text-[10px] bg-zinc-800 text-slate-400 px-2 py-0.5 rounded-full border border-zinc-700 shrink-0 font-semibold">
+                            <span className="text-[10px] bg-zinc-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-700 shrink-0 font-semibold">
                               Đã hoàn thành
                             </span>
                           )}
@@ -237,11 +238,11 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div>
                             <p className="text-slate-500">Còn lại</p>
-                            <p className="font-bold text-white">{formatCurrency(item.remaining_amount)}</p>
+                            <p className="font-bold text-slate-800 dark:text-white">{formatCurrency(item.remaining_amount)}</p>
                           </div>
                           <div>
                             <p className="text-slate-500">Nợ gốc</p>
-                            <p className="font-semibold text-slate-300">{formatCurrency(item.total_amount)}</p>
+                            <p className="font-semibold text-slate-600 dark:text-slate-300">{formatCurrency(item.total_amount)}</p>
                           </div>
                         </div>
 
@@ -253,7 +254,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                     </div>
 
                     {/* Actions and expand button */}
-                    <div className="flex justify-between items-center mt-5 pt-4 border-t border-zinc-800/40 pl-2">
+                    <div className="flex justify-between items-center mt-5 pt-4 border-t border-zinc-150 dark:border-zinc-800/40 pl-2">
                       <div className="flex gap-2">
                         {!isPaid && (
                           <button
@@ -261,14 +262,14 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                               setSelectedItem(item)
                               setShowPayModal(true)
                             }}
-                            className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                            className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 border border-rose-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                           >
                             Trả bớt
                           </button>
                         )}
                         <button
                           onClick={() => toggleHistory(item.id)}
-                          className="bg-zinc-800 hover:bg-zinc-750 text-slate-300 text-xs font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1 cursor-pointer transition-colors"
+                          className="btn-glass text-xs font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1 cursor-pointer transition-colors"
                         >
                           <History className="w-3.5 h-3.5" />
                           {expandedHistories[item.id] ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
@@ -278,7 +279,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                       <button
                         onClick={() => handleDelete(item.id)}
                         disabled={isPendingDelete}
-                        className="text-slate-500 hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 cursor-pointer transition-colors disabled:opacity-30"
+                        className="text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 cursor-pointer transition-colors disabled:opacity-30"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -286,19 +287,19 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
                     {/* Expanded Payment History List */}
                     {expandedHistories[item.id] && (
-                      <div className="mt-4 pt-4 border-t border-zinc-800/40 pl-2 space-y-2 animate-scale-in">
+                      <div className="mt-4 pt-4 border-t border-zinc-150 dark:border-zinc-800/40 pl-2 space-y-2 animate-scale-in">
                         <p className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Lịch sử trả nợ</p>
                         {item.debt_loan_history.length === 0 ? (
-                          <p className="text-xs text-slate-500 italic">Chưa có lượt trả nợ nào</p>
+                          <p className="text-xs text-slate-400 dark:text-slate-500 italic">Chưa có lượt trả nợ nào</p>
                         ) : (
                           <div className="space-y-2">
                             {item.debt_loan_history.map((hist) => (
-                              <div key={hist.id} className="flex justify-between items-center text-xs bg-zinc-950/40 p-2.5 rounded-xl border border-zinc-800/40">
+                              <div key={hist.id} className="flex justify-between items-center text-xs bg-zinc-50 dark:bg-zinc-950/40 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800/40">
                                 <div>
-                                  <p className="font-semibold text-slate-300">{formatDate(hist.paid_date)}</p>
-                                  {hist.note && <p className="text-[10px] text-slate-500 mt-0.5">{hist.note}</p>}
+                                  <p className="font-semibold text-slate-700 dark:text-slate-300">{formatDate(hist.paid_date)}</p>
+                                  {hist.note && <p className="text-[10px] text-slate-450 dark:text-slate-500 mt-0.5">{hist.note}</p>}
                                 </div>
-                                <span className="font-bold text-rose-400">-{formatCurrency(hist.amount_paid)}</span>
+                                <span className="font-bold text-rose-550 dark:text-rose-400">-{formatCurrency(hist.amount_paid)}</span>
                               </div>
                             ))}
                           </div>
@@ -314,22 +315,22 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
         {/* Loans column */}
         <div className="space-y-6">
-          <div className="bg-emerald-500/5 border border-emerald-500/10 rounded-3xl p-6 relative overflow-hidden">
+          <div className="bg-emerald-500/[0.03] dark:bg-emerald-500/5 border border-emerald-500/10 dark:border-emerald-500/10 rounded-3xl p-6 relative overflow-hidden shadow-sm dark:shadow-none">
             <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />
-            <h2 className="text-lg font-bold text-emerald-400 mb-4 flex items-center gap-2">
+            <h2 className="text-lg font-bold text-emerald-600 dark:text-emerald-400 mb-4 flex items-center gap-2">
               <HandCoins className="w-5 h-5" />
               Khoản cho vay cần đòi (Loans)
             </h2>
-            <div className="text-2xl font-bold text-white">
+            <div className="text-2xl font-bold text-slate-850 dark:text-white">
               {formatCurrency(loans.reduce((acc, curr) => acc + Number(curr.remaining_amount), 0))}
             </div>
-            <p className="text-xs text-slate-400 mt-1">Tổng tiền cho vay: {formatCurrency(loans.reduce((acc, curr) => acc + Number(curr.total_amount), 0))}</p>
+            <p className="text-xs text-slate-550 dark:text-slate-400 mt-1">Tổng tiền cho vay: {formatCurrency(loans.reduce((acc, curr) => acc + Number(curr.total_amount), 0))}</p>
           </div>
 
           {/* Loans List */}
           {loans.length === 0 ? (
-            <div className="text-center py-12 border border-dashed border-zinc-800 rounded-3xl bg-zinc-900/10">
-              <p className="text-sm text-slate-500">Bạn chưa cho ai vay tiền.</p>
+            <div className="text-center py-12 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-3xl bg-zinc-50 dark:bg-zinc-900/10">
+              <p className="text-sm text-slate-450 dark:text-slate-500">Bạn chưa cho ai vay tiền.</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -339,26 +340,26 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                 return (
                   <div 
                     key={item.id} 
-                    className={`bg-zinc-900/60 border rounded-3xl p-6 transition-all relative overflow-hidden ${
-                      isPaid ? 'border-zinc-800 opacity-60' : 'border-zinc-800'
+                    className={`bg-white dark:bg-zinc-900/60 border rounded-3xl p-6 transition-all relative overflow-hidden shadow-sm dark:shadow-none ${
+                      isPaid ? 'border-zinc-200 dark:border-zinc-800 opacity-60' : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700'
                     }`}
                   >
                     {/* Glowing status line */}
-                    <div className={`absolute top-0 left-0 w-1.5 h-full ${isPaid ? 'bg-zinc-700' : 'bg-emerald-500'}`} />
+                    <div className={`absolute top-0 left-0 w-1.5 h-full ${isPaid ? 'bg-zinc-450 dark:bg-zinc-700' : 'bg-emerald-500'}`} />
 
                     <div className="flex gap-4 items-start pl-2">
                       {renderPieChart(item)}
 
                       <div className="flex-1 space-y-1.5 min-w-0">
                         <div className="flex justify-between items-start gap-2">
-                          <h3 className="font-bold text-base text-white truncate">Cho vay: {item.partner_name}</h3>
+                          <h3 className="font-bold text-base text-slate-800 dark:text-white truncate">Cho vay: {item.partner_name}</h3>
                           {statusInfo && (
                             <span className={`text-[10px] px-2 py-0.5 rounded-full border shrink-0 ${statusInfo.className}`}>
                               {statusInfo.label}
                             </span>
                           )}
                           {isPaid && (
-                            <span className="text-[10px] bg-zinc-800 text-slate-400 px-2 py-0.5 rounded-full border border-zinc-700 shrink-0 font-semibold">
+                            <span className="text-[10px] bg-zinc-100 dark:bg-zinc-800 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-700 shrink-0 font-semibold">
                               Đã thu hồi hết
                             </span>
                           )}
@@ -367,11 +368,11 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                         <div className="grid grid-cols-2 gap-2 text-xs">
                           <div>
                             <p className="text-slate-500">Còn lại</p>
-                            <p className="font-bold text-white">{formatCurrency(item.remaining_amount)}</p>
+                            <p className="font-bold text-slate-800 dark:text-white">{formatCurrency(item.remaining_amount)}</p>
                           </div>
                           <div>
                             <p className="text-slate-500">Gốc cho vay</p>
-                            <p className="font-semibold text-slate-300">{formatCurrency(item.total_amount)}</p>
+                            <p className="font-semibold text-slate-600 dark:text-slate-300">{formatCurrency(item.total_amount)}</p>
                           </div>
                         </div>
 
@@ -383,7 +384,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                     </div>
 
                     {/* Actions and expand button */}
-                    <div className="flex justify-between items-center mt-5 pt-4 border-t border-zinc-800/40 pl-2">
+                    <div className="flex justify-between items-center mt-5 pt-4 border-t border-zinc-150 dark:border-zinc-800/40 pl-2">
                       <div className="flex gap-2">
                         {!isPaid && (
                           <button
@@ -391,14 +392,14 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                               setSelectedItem(item)
                               setShowPayModal(true)
                             }}
-                            className="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
+                            className="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-650 dark:text-emerald-400 border border-emerald-500/20 text-xs font-semibold py-1.5 px-3 rounded-lg cursor-pointer transition-colors"
                           >
                             Thu hồi bớt
                           </button>
                         )}
                         <button
                           onClick={() => toggleHistory(item.id)}
-                          className="bg-zinc-800 hover:bg-zinc-750 text-slate-300 text-xs font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1 cursor-pointer transition-colors"
+                          className="btn-glass text-xs font-semibold py-1.5 px-3 rounded-lg flex items-center gap-1 cursor-pointer transition-colors"
                         >
                           <History className="w-3.5 h-3.5" />
                           {expandedHistories[item.id] ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
@@ -408,7 +409,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                       <button
                         onClick={() => handleDelete(item.id)}
                         disabled={isPendingDelete}
-                        className="text-slate-500 hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 cursor-pointer transition-colors disabled:opacity-30"
+                        className="text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 cursor-pointer transition-colors disabled:opacity-30"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -416,19 +417,19 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
                     {/* Expanded Payment History List */}
                     {expandedHistories[item.id] && (
-                      <div className="mt-4 pt-4 border-t border-zinc-800/40 pl-2 space-y-2 animate-scale-in">
+                      <div className="mt-4 pt-4 border-t border-zinc-150 dark:border-zinc-800/40 pl-2 space-y-2 animate-scale-in">
                         <p className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Lịch sử thu hồi</p>
                         {item.debt_loan_history.length === 0 ? (
-                          <p className="text-xs text-slate-500 italic">Chưa có lượt thu hồi nào</p>
+                          <p className="text-xs text-slate-450 dark:text-slate-500 italic">Chưa có lượt thu hồi nào</p>
                         ) : (
                           <div className="space-y-2">
                             {item.debt_loan_history.map((hist) => (
-                              <div key={hist.id} className="flex justify-between items-center text-xs bg-zinc-950/40 p-2.5 rounded-xl border border-zinc-800/40">
+                              <div key={hist.id} className="flex justify-between items-center text-xs bg-zinc-50 dark:bg-zinc-950/40 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800/40">
                                 <div>
-                                  <p className="font-semibold text-slate-300">{formatDate(hist.paid_date)}</p>
-                                  {hist.note && <p className="text-[10px] text-slate-500 mt-0.5">{hist.note}</p>}
+                                  <p className="font-semibold text-slate-700 dark:text-slate-300">{formatDate(hist.paid_date)}</p>
+                                  {hist.note && <p className="text-[10px] text-slate-450 dark:text-slate-500 mt-0.5">{hist.note}</p>}
                                 </div>
-                                <span className="font-bold text-emerald-400">+{formatCurrency(hist.amount_paid)}</span>
+                                <span className="font-bold text-emerald-600 dark:text-emerald-400">+{formatCurrency(hist.amount_paid)}</span>
                               </div>
                             ))}
                           </div>
@@ -446,18 +447,18 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
       {/* Add Debt/Loan Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
-          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-md relative z-10 shadow-2xl animate-scale-in">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
+          <div className="bg-white dark:bg-zinc-950/85 backdrop-blur-2xl border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 w-full max-w-md relative z-10 shadow-2xl animate-scale-in text-left">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-bold text-white">Tạo khoản nợ / cho vay mới</h3>
-              <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-white p-1 cursor-pointer">
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white">Tạo khoản nợ / cho vay mới</h3>
+              <button onClick={() => setShowAddModal(false)} className="text-slate-450 hover:text-slate-650 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form action={addFormAction} className="space-y-4">
               {addState?.error && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2">
+                <div className="bg-rose-500/10 border border-rose-500/30 text-rose-650 dark:text-rose-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2">
                   <Info className="w-4 h-4 shrink-0" />
                   <span>{addState.error}</span>
                 </div>
@@ -465,11 +466,11 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
               {/* Type */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400">Loại khoản nợ/cho vay</label>
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400">Loại khoản nợ/cho vay</label>
                 <select
                   name="type"
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500"
                 >
                   <option value="debt">Nợ cần trả (Mình nợ người ta)</option>
                   <option value="loan">Cho vay cần đòi (Người ta nợ mình)</option>
@@ -478,7 +479,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
               {/* Partner Name */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400" htmlFor="partner_name">
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="partner_name">
                   Tên người nợ / người cho vay <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -487,13 +488,13 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   type="text"
                   placeholder="Ví dụ: Anh Ba, Ngân hàng ACB..."
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
               {/* Total Amount */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400" htmlFor="total_amount">
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="total_amount">
                   Tổng số tiền gốc <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -503,13 +504,13 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   min="1"
                   placeholder="Ví dụ: 5000000"
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
               {/* Due Date */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400" htmlFor="due_date">
+                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="due_date">
                   Hạn chót thanh toán <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -518,7 +519,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   type="date"
                   required
                   defaultValue={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]} // Default 7 days from now
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
@@ -526,14 +527,14 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-2.5 rounded-xl text-sm cursor-pointer"
+                  className="flex-1 btn-glass font-semibold py-2.5 rounded-xl text-sm cursor-pointer"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
                   disabled={isPendingAdd}
-                  className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {isPendingAdd ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Tạo khoản'}
                 </button>
@@ -546,13 +547,13 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
       {/* Pay/Recover Payment Modal */}
       {showPayModal && selectedItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => {
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => {
             setShowPayModal(false)
             setSelectedItem(null)
           }} />
-          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-md relative z-10 shadow-2xl animate-scale-in">
+          <div className="bg-white dark:bg-zinc-950/85 backdrop-blur-2xl border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 w-full max-w-md relative z-10 shadow-2xl animate-scale-in text-left">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-bold text-white">
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white">
                 {selectedItem.type === 'debt' ? 'Trả bớt nợ' : 'Thu hồi bớt nợ'}
               </h3>
               <button 
@@ -560,7 +561,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   setShowPayModal(false)
                   setSelectedItem(null)
                 }} 
-                className="text-slate-400 hover:text-white p-1 cursor-pointer"
+                className="text-slate-450 hover:text-slate-650 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -568,7 +569,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
             <form action={payFormAction} className="space-y-4">
               {payState?.error && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2">
+                <div className="bg-rose-500/10 border border-rose-500/30 text-rose-650 dark:text-rose-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2">
                   <Info className="w-4 h-4 shrink-0" />
                   <span>{payState.error}</span>
                 </div>
@@ -576,16 +577,16 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
               <input type="hidden" name="debt_loan_id" value={selectedItem.id} />
 
-              <div className="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 mb-2 space-y-1">
+              <div className="bg-zinc-100/60 dark:bg-zinc-950/60 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 mb-2 space-y-1">
                 <p className="text-[10px] text-slate-500 uppercase font-bold">Đối tác</p>
-                <p className="text-sm font-semibold text-white">{selectedItem.partner_name}</p>
+                <p className="text-sm font-semibold text-slate-800 dark:text-white">{selectedItem.partner_name}</p>
                 <p className="text-[10px] text-slate-500 uppercase font-bold pt-1">Số dư còn lại</p>
-                <p className="text-sm font-bold text-indigo-400">{formatCurrency(selectedItem.remaining_amount)}</p>
+                <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400">{formatCurrency(selectedItem.remaining_amount)}</p>
               </div>
 
               {/* Amount paid */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400" htmlFor="amount_paid">
+                <label className="text-xs font-semibold text-slate-550 dark:text-slate-400" htmlFor="amount_paid">
                   Số tiền thanh toán <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -596,13 +597,13 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   max={selectedItem.remaining_amount}
                   placeholder={`Tối đa ${selectedItem.remaining_amount}`}
                   required
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
               {/* Paid date */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400" htmlFor="paid_date">
+                <label className="text-xs font-semibold text-slate-550 dark:text-slate-400" htmlFor="paid_date">
                   Ngày thanh toán <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -611,13 +612,13 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   type="date"
                   required
                   defaultValue={todayStr}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500"
                 />
               </div>
 
               {/* Note */}
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-400" htmlFor="note">
+                <label className="text-xs font-semibold text-slate-550 dark:text-slate-400" htmlFor="note">
                   Ghi chú
                 </label>
                 <textarea
@@ -625,7 +626,7 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   name="note"
                   rows={2}
                   placeholder="Ví dụ: Trả đợt 1, đòi được một ít..."
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2 px-3 text-sm text-white focus:outline-none focus:border-indigo-500 resize-none"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 resize-none"
                 />
               </div>
 
@@ -636,14 +637,14 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                     setShowPayModal(false)
                     setSelectedItem(null)
                   }}
-                  className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-2.5 rounded-xl text-sm cursor-pointer"
+                  className="flex-1 btn-glass font-semibold py-2.5 rounded-xl text-sm cursor-pointer"
                 >
                   Hủy
                 </button>
                 <button
                   type="submit"
                   disabled={isPendingPay}
-                  className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {isPendingPay ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Xác nhận'}
                 </button>

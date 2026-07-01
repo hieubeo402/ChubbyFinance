@@ -128,24 +128,24 @@ export default function ReportsClient({ transactions }: { transactions: Transact
   const savingsRate = monthIncome > 0 ? (netSavings / monthIncome) * 100 : 0
 
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full space-y-8">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-8 animate-page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">Báo cáo & Phân tích</h1>
-          <p className="text-slate-400 text-sm mt-1">Xu hướng tài chính và biểu đồ tương quan thu chi</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Báo cáo & Phân tích</h1>
+          <p className="text-slate-550 dark:text-slate-400 text-sm mt-1">Xu hướng tài chính và biểu đồ tương quan thu chi</p>
         </div>
 
-        <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2">
-          <Calendar className="w-4 h-4 text-indigo-400" />
-          <span className="text-xs text-slate-400 font-semibold uppercase">Chọn Tháng Báo Cáo:</span>
+        <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2 shadow-sm dark:shadow-none">
+          <Calendar className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+          <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">Chọn Tháng Báo Cáo:</span>
           <select
             value={selectedMonthYear}
             onChange={(e) => setSelectedMonthYear(e.target.value)}
-            className="bg-transparent text-sm font-bold text-white focus:outline-none cursor-pointer"
+            className="bg-transparent text-sm font-bold text-slate-800 dark:text-white focus:outline-none cursor-pointer"
           >
             {monthOptions.map((opt) => (
-              <option key={opt} value={opt} className="bg-zinc-900 text-white">
+              <option key={opt} value={opt} className="bg-white dark:bg-zinc-900 text-slate-800 dark:text-white">
                 Tháng {opt}
               </option>
             ))}
@@ -156,48 +156,48 @@ export default function ReportsClient({ transactions }: { transactions: Transact
       {/* Selected Month Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Income Card */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-5 flex items-center gap-4">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
           <div className="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center shrink-0">
-            <ArrowUpCircle className="w-5 h-5 text-emerald-400" />
+            <ArrowUpCircle className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
           </div>
           <div>
             <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Tổng thu tháng này</p>
-            <p className="text-lg font-bold text-white mt-0.5">{formatCurrency(monthIncome)}</p>
+            <p className="text-lg font-bold text-slate-805 dark:text-white mt-0.5">{formatCurrency(monthIncome)}</p>
           </div>
         </div>
 
         {/* Expense Card */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-5 flex items-center gap-4">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
           <div className="w-10 h-10 bg-rose-500/10 rounded-xl flex items-center justify-center shrink-0">
-            <ArrowDownCircle className="w-5 h-5 text-rose-400" />
+            <ArrowDownCircle className="w-5 h-5 text-rose-550 dark:text-rose-400" />
           </div>
           <div>
             <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Tổng chi tháng này</p>
-            <p className="text-lg font-bold text-white mt-0.5">{formatCurrency(monthExpense)}</p>
+            <p className="text-lg font-bold text-slate-805 dark:text-white mt-0.5">{formatCurrency(monthExpense)}</p>
           </div>
         </div>
 
         {/* Net Savings */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-5 flex items-center gap-4">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
           <div className="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center shrink-0">
-            <TrendingUp className="w-5 h-5 text-indigo-400" />
+            <TrendingUp className="w-5 h-5 text-indigo-550 dark:text-indigo-400" />
           </div>
           <div>
             <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Tích lũy ròng</p>
-            <p className={`text-lg font-bold mt-0.5 ${netSavings >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+            <p className={`text-lg font-bold mt-0.5 ${netSavings >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-650 dark:text-rose-400'}`}>
               {formatCurrency(netSavings)}
             </p>
           </div>
         </div>
 
         {/* Savings Rate */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-5 flex items-center gap-4">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
           <div className="w-10 h-10 bg-purple-500/10 rounded-xl flex items-center justify-center shrink-0">
-            <Percent className="w-5 h-5 text-purple-400" />
+            <Percent className="w-5 h-5 text-purple-550 dark:text-purple-400" />
           </div>
           <div>
             <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Tỷ lệ tích lũy</p>
-            <p className="text-lg font-bold text-white mt-0.5">
+            <p className="text-lg font-bold text-slate-850 dark:text-white mt-0.5">
               {netSavings >= 0 ? `${savingsRate.toFixed(1)}%` : '0% (Âm)'}
             </p>
           </div>
@@ -208,28 +208,33 @@ export default function ReportsClient({ transactions }: { transactions: Transact
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Chart 1: 6-Month Comparison (Bar Chart) */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 space-y-4">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
           <div className="flex items-center gap-2 mb-2">
-            <BarChart3 className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-lg font-bold text-white">So sánh Thu nhập vs Chi tiêu (6 Tháng qua)</h3>
+            <BarChart3 className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
+            <h3 className="text-lg font-bold text-slate-800 dark:text-white">So sánh Thu nhập vs Chi tiêu (6 Tháng qua)</h3>
           </div>
 
           {mounted ? (
             <div className="h-80 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={monthlyTrendData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-                  <XAxis dataKey="name" stroke="#9ca3af" fontSize={11} tickLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                  <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} />
                   <YAxis 
-                    stroke="#9ca3af" 
+                    stroke="#64748b" 
                     fontSize={10} 
                     tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`}
                     tickLine={false}
                   />
                   <Tooltip 
                     formatter={(value) => formatCurrency(Number(value))}
-                    contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '12px' }}
-                    labelStyle={{ color: '#ffffff', fontWeight: 'bold' }}
+                    contentStyle={{ 
+                      backgroundColor: 'var(--color-card)', 
+                      borderColor: 'var(--color-border)', 
+                      borderRadius: '12px',
+                      color: 'var(--color-foreground)'
+                    }}
+                    labelStyle={{ color: 'var(--color-foreground)', fontWeight: 'bold' }}
                   />
                   <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
                   <Bar dataKey="Thu nhập" fill="#10b981" radius={[4, 4, 0, 0]} />
@@ -238,17 +243,17 @@ export default function ReportsClient({ transactions }: { transactions: Transact
               </ResponsiveContainer>
             </div>
           ) : (
-            <div className="h-80 w-full flex items-center justify-center bg-zinc-950/20 border border-zinc-800/20 rounded-2xl animate-pulse">
-              <span className="text-xs text-slate-500">Đang chuẩn bị biểu đồ...</span>
+            <div className="h-80 w-full flex items-center justify-center bg-zinc-50 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
+              <span className="text-xs text-slate-400 dark:text-slate-500">Đang chuẩn bị biểu đồ...</span>
             </div>
           )}
         </div>
 
         {/* Chart 2: Daily Transaction Flow for Selected Month (Area Chart) */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 space-y-4">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
           <div className="flex items-center gap-2 mb-2">
-            <LineIcon className="w-5 h-5 text-indigo-400" />
-            <h3 className="text-lg font-bold text-white">Dòng chảy tiền tệ hàng ngày (Tháng {selectedMonthYear})</h3>
+            <LineIcon className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
+            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Dòng chảy tiền tệ hàng ngày (Tháng {selectedMonthYear})</h3>
           </div>
 
           {mounted ? (
@@ -265,18 +270,23 @@ export default function ReportsClient({ transactions }: { transactions: Transact
                       <stop offset="95%" stopColor="#f43f5e" stopOpacity={0}/>
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" vertical={false} />
-                  <XAxis dataKey="day" stroke="#9ca3af" fontSize={10} tickLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                  <XAxis dataKey="day" stroke="#64748b" fontSize={10} tickLine={false} />
                   <YAxis 
-                    stroke="#9ca3af" 
+                    stroke="#64748b" 
                     fontSize={10} 
                     tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
                     tickLine={false}
                   />
                   <Tooltip 
                     formatter={(value) => formatCurrency(Number(value))}
-                    contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '12px' }}
-                    labelStyle={{ color: '#ffffff', fontWeight: 'bold' }}
+                    contentStyle={{ 
+                      backgroundColor: 'var(--color-card)', 
+                      borderColor: 'var(--color-border)', 
+                      borderRadius: '12px',
+                      color: 'var(--color-foreground)'
+                    }}
+                    labelStyle={{ color: 'var(--color-foreground)', fontWeight: 'bold' }}
                   />
                   <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
                   <Area type="monotone" dataKey="Thu nhập" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#incomeGrad)" />
@@ -285,8 +295,8 @@ export default function ReportsClient({ transactions }: { transactions: Transact
               </ResponsiveContainer>
             </div>
           ) : (
-            <div className="h-80 w-full flex items-center justify-center bg-zinc-950/20 border border-zinc-800/20 rounded-2xl animate-pulse">
-              <span className="text-xs text-slate-500">Đang chuẩn bị biểu đồ...</span>
+            <div className="h-80 w-full flex items-center justify-center bg-zinc-50 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
+              <span className="text-xs text-slate-400 dark:text-slate-500">Đang chuẩn bị biểu đồ...</span>
             </div>
           )}
         </div>

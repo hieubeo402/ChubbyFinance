@@ -120,27 +120,27 @@ export default function BudgetClient({
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto w-full space-y-8">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-8 animate-page">
       {/* Header with Selector */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">Ngân sách & Hạn mức</h1>
-          <p className="text-slate-400 text-sm mt-1">Quản lý hạn mức chi tiêu hàng tháng và phân tích cơ cấu chi tiêu</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Ngân sách & Hạn mức</h1>
+          <p className="text-slate-550 dark:text-slate-400 text-sm mt-1">Quản lý hạn mức chi tiêu hàng tháng và phân tích cơ cấu chi tiêu</p>
         </div>
 
-        <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-2">
-          <Calendar className="w-4 h-4 text-indigo-400" />
-          <span className="text-xs text-slate-400 font-semibold uppercase">Chọn Tháng:</span>
+        <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2 shadow-sm dark:shadow-none">
+          <Calendar className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+          <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">Chọn Tháng:</span>
           <select
             value={selectedMonthYear}
             onChange={(e) => {
               setSelectedMonthYear(e.target.value)
               setIsEditing(false)
             }}
-            className="bg-transparent text-sm font-bold text-white focus:outline-none cursor-pointer"
+            className="bg-transparent text-sm font-bold text-slate-800 dark:text-white focus:outline-none cursor-pointer"
           >
             {monthOptions.map((opt) => (
-              <option key={opt} value={opt} className="bg-zinc-900 text-white">
+              <option key={opt} value={opt} className="bg-white dark:bg-zinc-900 text-slate-800 dark:text-white">
                 Tháng {opt}
               </option>
             ))}
@@ -158,8 +158,8 @@ export default function BudgetClient({
           {activeBudget && isWarning && (
             <div className={`border p-4 rounded-2xl flex items-start gap-3.5 animate-pulse ${
               progressPercent > 100 
-                ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' 
-                : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+                ? 'bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-400' 
+                : 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400'
             }`}>
               <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
               <div>
@@ -177,15 +177,15 @@ export default function BudgetClient({
           )}
 
           {/* Budget Setting / Edit Card */}
-          <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6">
+          <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm dark:shadow-none">
             {!activeBudget || isEditing ? (
               <form action={formAction} className="space-y-4">
-                <h3 className="text-lg font-bold text-white mb-2">
+                <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
                   {activeBudget ? `Sửa ngân sách Tháng ${selectedMonthYear}` : `Thiết lập ngân sách Tháng ${selectedMonthYear}`}
                 </h3>
 
                 {state?.error && (
-                  <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2">
+                  <div className="bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2">
                     <Info className="w-4 h-4 shrink-0" />
                     <span>{state.error}</span>
                   </div>
@@ -196,7 +196,7 @@ export default function BudgetClient({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Fixed Income */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400" htmlFor="fixed_income">
+                    <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="fixed_income">
                       Nguồn thu nhập cố định hàng tháng (VND) <span className="text-rose-500">*</span>
                     </label>
                     <input
@@ -207,13 +207,13 @@ export default function BudgetClient({
                       required
                       defaultValue={activeBudget ? Number(activeBudget.fixed_income) : ''}
                       placeholder="Ví dụ: 15000000"
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                      className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
                     />
                   </div>
 
                   {/* Monthly Budget limit */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-400" htmlFor="monthly_budget">
+                    <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="monthly_budget">
                       Hạn mức chi tiêu tối đa (VND) <span className="text-rose-500">*</span>
                     </label>
                     <input
@@ -224,7 +224,7 @@ export default function BudgetClient({
                       required
                       defaultValue={activeBudget ? Number(activeBudget.monthly_budget) : ''}
                       placeholder="Ví dụ: 10000000"
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                      className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
                     />
                   </div>
                 </div>
@@ -234,7 +234,7 @@ export default function BudgetClient({
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-2.5 rounded-xl text-sm cursor-pointer transition-colors"
+                      className="flex-1 btn-glass font-semibold py-2.5 rounded-xl text-sm cursor-pointer"
                     >
                       Hủy bỏ
                     </button>
@@ -242,7 +242,7 @@ export default function BudgetClient({
                   <button
                     type="submit"
                     disabled={isPending}
-                    className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Lưu cài đặt'}
                   </button>
@@ -252,12 +252,12 @@ export default function BudgetClient({
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="text-lg font-bold text-white">Chỉ số tài chính tháng</h3>
+                    <h3 className="text-lg font-bold text-slate-800 dark:text-white">Chỉ số tài chính tháng</h3>
                     <p className="text-xs text-slate-500">Hạn mức và thu nhập cố định đang áp dụng</p>
                   </div>
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-semibold hover:bg-indigo-500/10 px-3 py-1.5 rounded-lg border border-indigo-500/20 transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 text-xs text-indigo-600 dark:text-indigo-400 font-semibold hover:bg-indigo-500/10 px-3 py-1.5 rounded-lg border border-indigo-500/20 transition-all cursor-pointer"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                     Thay đổi hạn mức
@@ -266,23 +266,23 @@ export default function BudgetClient({
 
                 {/* Financial Summary cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-4 flex items-center gap-4">
+                  <div className="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/85 rounded-2xl p-4 flex items-center gap-4">
                     <div className="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center shrink-0">
-                      <Wallet className="w-5 h-5 text-indigo-400" />
+                      <Wallet className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
                     </div>
                     <div>
                       <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Thu nhập cố định</p>
-                      <p className="text-lg font-bold text-white mt-0.5">{formatCurrency(fixedIncome)}</p>
+                      <p className="text-lg font-bold text-slate-800 dark:text-white mt-0.5">{formatCurrency(fixedIncome)}</p>
                     </div>
                   </div>
 
-                  <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-4 flex items-center gap-4">
+                  <div className="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/85 rounded-2xl p-4 flex items-center gap-4">
                     <div className="w-10 h-10 bg-purple-500/10 rounded-xl flex items-center justify-center shrink-0">
-                      <PiggyBank className="w-5 h-5 text-purple-400" />
+                      <PiggyBank className="w-5 h-5 text-purple-550 dark:text-purple-400" />
                     </div>
                     <div>
                       <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Hạn mức chi tiêu</p>
-                      <p className="text-lg font-bold text-white mt-0.5">{formatCurrency(budgetLimit)}</p>
+                      <p className="text-lg font-bold text-slate-800 dark:text-white mt-0.5">{formatCurrency(budgetLimit)}</p>
                     </div>
                   </div>
                 </div>
@@ -290,14 +290,14 @@ export default function BudgetClient({
                 {/* Budget Progress Bar */}
                 <div className="space-y-2 pt-2">
                   <div className="flex justify-between items-end text-xs">
-                    <span className="text-slate-400 font-medium">Tiến trình tiêu dùng</span>
-                    <span className="font-bold text-slate-200">
+                    <span className="text-slate-500 dark:text-slate-400 font-medium">Tiến trình tiêu dùng</span>
+                    <span className="font-bold text-slate-750 dark:text-slate-200">
                       {formatCurrency(totalExpense)} / {formatCurrency(budgetLimit)} ({progressPercent.toFixed(1)}%)
                     </span>
                   </div>
 
                   {/* Progress track */}
-                  <div className="w-full bg-zinc-950 rounded-full h-3.5 border border-zinc-800 overflow-hidden">
+                  <div className="w-full bg-zinc-100 dark:bg-zinc-950 rounded-full h-3.5 border border-zinc-200 dark:border-zinc-800 overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-1000 ${
                         progressPercent > 100 
@@ -326,11 +326,11 @@ export default function BudgetClient({
 
           {/* Quick info if budget is not set */}
           {!activeBudget && !isEditing && (
-            <div className="bg-zinc-900/30 border border-zinc-800/80 rounded-3xl p-8 text-center space-y-4">
-              <PiggyBank className="w-12 h-12 text-slate-600 mx-auto" />
+            <div className="bg-white dark:bg-zinc-900/30 border border-zinc-200 dark:border-zinc-850 rounded-3xl p-8 text-center space-y-4 shadow-sm dark:shadow-none">
+              <PiggyBank className="w-12 h-12 text-slate-450 dark:text-slate-650 mx-auto" />
               <div>
-                <h4 className="font-bold text-white">Chưa thiết lập ngân sách tháng {selectedMonthYear}</h4>
-                <p className="text-sm text-slate-500 mt-1 max-w-md mx-auto">
+                <h4 className="font-bold text-slate-800 dark:text-white">Chưa thiết lập ngân sách tháng {selectedMonthYear}</h4>
+                <p className="text-sm text-slate-550 dark:text-slate-500 mt-1 max-w-md mx-auto">
                   Hãy thiết lập nguồn thu nhập cố định và ngân sách chi tiêu tối đa để hệ thống ChubbyFinance phân tích và bảo vệ dòng tiền của bạn.
                 </p>
               </div>
@@ -345,32 +345,32 @@ export default function BudgetClient({
         </div>
 
         {/* Right Area: Category Breakdown (1 Column) */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 flex flex-col justify-between">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 flex flex-col justify-between shadow-sm dark:shadow-none">
           <div>
-            <h3 className="text-lg font-bold text-white mb-1">Cơ cấu chi tiêu</h3>
-            <p className="text-xs text-slate-500 mb-6">Tỷ lệ phân phối chi tiêu theo danh mục</p>
+            <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-1">Cơ cấu chi tiêu</h3>
+            <p className="text-xs text-slate-550 dark:text-slate-500 mb-6">Tỷ lệ phân phối chi tiêu theo danh mục</p>
 
             {chartData.length === 0 ? (
               <div className="text-center py-16">
-                <PieIcon className="w-10 h-10 text-slate-700 mx-auto mb-2" />
+                <PieIcon className="w-10 h-10 text-slate-400 dark:text-slate-700 mx-auto mb-2" />
                 <p className="text-sm text-slate-500 font-medium">Chưa có giao dịch chi tiêu nào</p>
-                <p className="text-xs text-slate-600 mt-0.5">Các khoản chi tiêu trong tháng sẽ xuất hiện tại đây</p>
+                <p className="text-xs text-slate-450 dark:text-slate-650 mt-0.5">Các khoản chi tiêu trong tháng sẽ xuất hiện tại đây</p>
               </div>
             ) : (
               <div className="space-y-6">
-                {/* Recharts Donut Pie Chart (Runs only when client mounted) */}
+                {/* Recharts Donut Pie Chart */}
                 {mounted ? (
                   <div className="h-44 w-full relative flex items-center justify-center">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <Pie
-                          data={chartData}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={50}
-                          outerRadius={75}
-                          paddingAngle={3}
-                          dataKey="value"
+                           data={chartData}
+                           cx="50%"
+                           cy="50%"
+                           innerRadius={50}
+                           outerRadius={75}
+                           paddingAngle={3}
+                           dataKey="value"
                         >
                           {chartData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -378,18 +378,23 @@ export default function BudgetClient({
                         </Pie>
                         <Tooltip 
                           formatter={(value) => formatCurrency(Number(value))}
-                          contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', borderRadius: '12px' }}
+                          contentStyle={{ 
+                            backgroundColor: 'var(--color-card)', 
+                            borderColor: 'var(--color-border)', 
+                            borderRadius: '12px',
+                            color: 'var(--color-foreground)'
+                          }}
                         />
                       </PieChart>
                     </ResponsiveContainer>
                     <div className="absolute text-center pointer-events-none">
-                      <span className="text-lg font-extrabold text-white">{formatCurrency(totalExpense)}</span>
+                      <span className="text-base font-extrabold text-slate-800 dark:text-white">{formatCurrency(totalExpense)}</span>
                       <p className="text-[8px] text-slate-500 font-bold uppercase tracking-wider">Tổng chi tiêu</p>
                     </div>
                   </div>
                 ) : (
-                  <div className="h-44 w-full flex items-center justify-center bg-zinc-950/20 border border-zinc-800/20 rounded-2xl animate-pulse">
-                    <span className="text-xs text-slate-500">Đang chuẩn bị biểu đồ...</span>
+                  <div className="h-44 w-full flex items-center justify-center bg-zinc-50 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
+                    <span className="text-xs text-slate-400 dark:text-slate-500">Đang chuẩn bị biểu đồ...</span>
                   </div>
                 )}
 
@@ -403,13 +408,13 @@ export default function BudgetClient({
                         <div className="flex justify-between items-center text-xs">
                           <div className="flex items-center gap-2">
                             <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: color }} />
-                            <span className="font-semibold text-white">{item.name}</span>
+                            <span className="font-semibold text-slate-800 dark:text-white">{item.name}</span>
                           </div>
-                          <span className="text-slate-400">
+                          <span className="text-slate-500 dark:text-slate-400">
                             {formatCurrency(item.value)} ({percent.toFixed(1)}%)
                           </span>
                         </div>
-                        <div className="w-full bg-zinc-950 rounded-full h-1 overflow-hidden">
+                        <div className="w-full bg-zinc-100 dark:bg-zinc-950 rounded-full h-1 overflow-hidden">
                           <div 
                             className="h-full rounded-full" 
                             style={{ 
