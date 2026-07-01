@@ -244,7 +244,7 @@ export default function BudgetClient({
                   <button
                     type="submit"
                     disabled={isPending}
-                    className="flex-1 bg-indigo-650 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.96]"
+                    className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.96]"
                   >
                     {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Lưu cài đặt'}
                   </button>
@@ -338,7 +338,7 @@ export default function BudgetClient({
               </div>
               <button
                 onClick={() => setIsEditing(true)}
-                className="bg-indigo-650 hover:bg-indigo-600 text-white font-semibold py-2 px-6 rounded-xl text-sm transition-all cursor-pointer shadow-md shadow-indigo-600/10 active:scale-[0.96]"
+                className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-6 rounded-xl text-sm transition-all cursor-pointer shadow-md shadow-indigo-600/10 active:scale-[0.96]"
               >
                 Cài đặt ngay
               </button>

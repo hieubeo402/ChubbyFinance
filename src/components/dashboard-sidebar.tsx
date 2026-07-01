@@ -91,7 +91,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
   return (
     <>
       {/* 1. DESKTOP SIDEBAR (Visible on medium screens and up) */}
-      <aside className="hidden md:flex w-64 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-900 flex-col justify-between h-screen sticky top-0 shrink-0 select-none transition-colors duration-200">
+      <aside className="hidden md:flex w-64 bg-white dark:bg-black border-r border-zinc-200 dark:border-zinc-900 flex-col justify-between h-screen sticky top-0 shrink-0 select-none transition-colors duration-300">
         {/* Upper part */}
         <div className="p-6">
           {/* Brand & Theme toggle */}
@@ -140,7 +140,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
                   href={item.href}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-indigo-500/10 dark:bg-gradient-to-r dark:from-indigo-600/10 dark:to-purple-600/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-semibold shadow-sm'
+                      ? 'bg-indigo-500/10 dark:bg-gradient-to-r dark:from-indigo-600/10 dark:to-purple-600/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-semibold shadow-sm animate-active-tab'
                       : 'text-slate-500 dark:text-slate-400 hover:bg-zinc-100 dark:hover:bg-zinc-900/50 hover:text-slate-900 dark:hover:text-white border border-transparent'
                   }`}
                 >
@@ -167,7 +167,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
       </aside>
 
       {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-900/80 z-40 flex items-center justify-around px-2 pb-safe select-none transition-colors duration-200 shadow-lg">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-900/80 z-40 flex items-center justify-around px-2 pb-safe select-none transition-colors duration-300 shadow-lg">
         {menuItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href
@@ -177,7 +177,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
               href={item.href}
               className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium transition-all ${
                 isActive
-                  ? 'text-indigo-600 dark:text-indigo-400 font-bold scale-105'
+                  ? 'text-indigo-600 dark:text-indigo-400 font-bold scale-105 animate-active-tab'
                   : 'text-slate-500 dark:text-slate-400'
               }`}
             >
