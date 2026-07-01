@@ -91,12 +91,12 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="p-8 space-y-8 max-w-7xl mx-auto w-full">
+    <div className="p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl mx-auto w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">Tổng quan tài chính</h1>
-          <p className="text-slate-400 text-sm mt-1">Hôm nay là ngày {formatDate(now)}</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Tổng quan tài chính</h1>
+          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Hôm nay là ngày {formatDate(now)}</p>
         </div>
         <div className="flex gap-3">
           <Link
@@ -113,8 +113,8 @@ export default async function DashboardPage() {
       {isBudgetWarning && (
         <div className={`border p-4 rounded-2xl flex items-start gap-3.5 animate-pulse ${
           budgetProgressPercent > 100 
-            ? 'bg-rose-500/10 border-rose-500/30 text-rose-400' 
-            : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
+            ? 'bg-rose-500/10 border-rose-500/30 text-rose-500 dark:text-rose-400' 
+            : 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400'
         }`}>
           <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
           <div>
@@ -134,95 +134,95 @@ export default async function DashboardPage() {
       {/* Financial metrics grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Card 1: Balance */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 relative overflow-hidden">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 relative overflow-hidden shadow-sm dark:shadow-none">
           <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-600/5 rounded-full blur-2xl pointer-events-none" />
           <div className="flex justify-between items-start mb-4">
             <div className="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center">
-              <Wallet className="w-5 h-5 text-indigo-400" />
+              <Wallet className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
             </div>
           </div>
-          <p className="text-xs font-semibold text-slate-400">Tổng số dư khả dụng</p>
-          <h3 className={`text-2xl font-bold mt-1 tracking-tight ${totalBalance >= 0 ? 'text-white' : 'text-rose-400'}`}>
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Tổng số dư khả dụng</p>
+          <h3 className={`text-2xl font-bold mt-1 tracking-tight ${totalBalance >= 0 ? 'text-slate-800 dark:text-white' : 'text-rose-500 dark:text-rose-400'}`}>
             {formatCurrency(totalBalance)}
           </h3>
-          <p className="text-[10px] text-slate-500 mt-2">Tổng thu nhập trừ tổng chi tiêu tích lũy</p>
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-2">Tổng thu nhập trừ tổng chi tiêu tích lũy</p>
         </div>
 
         {/* Card 2: Income */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 relative overflow-hidden">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 relative overflow-hidden shadow-sm dark:shadow-none">
           <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-600/5 rounded-full blur-2xl pointer-events-none" />
           <div className="flex justify-between items-start mb-4">
             <div className="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center">
-              <ArrowUpRight className="w-5 h-5 text-emerald-400" />
+              <ArrowUpRight className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
             </div>
-            <div className="flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-medium">
+            <div className="flex items-center gap-1 text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-550/10 px-2 py-0.5 rounded-full font-semibold">
               Tháng {currentMonth}
             </div>
           </div>
-          <p className="text-xs font-semibold text-slate-400">Thu nhập tháng này</p>
-          <h3 className="text-2xl font-bold text-emerald-400 mt-1 tracking-tight">
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Thu nhập tháng này</p>
+          <h3 className="text-2xl font-bold text-emerald-500 dark:text-emerald-400 mt-1 tracking-tight">
             {formatCurrency(currentMonthIncome)}
           </h3>
-          <p className="text-[10px] text-slate-500 mt-2">Tổng thực nhận: {formatCurrency(totalIncomeAllTime)}</p>
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-2">Tổng thực nhận: {formatCurrency(totalIncomeAllTime)}</p>
         </div>
 
         {/* Card 3: Expenses */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 relative overflow-hidden">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 relative overflow-hidden shadow-sm dark:shadow-none">
           <div className="absolute top-0 right-0 w-24 h-24 bg-rose-600/5 rounded-full blur-2xl pointer-events-none" />
           <div className="flex justify-between items-start mb-4">
             <div className="w-10 h-10 bg-rose-500/10 rounded-xl flex items-center justify-center">
-              <ArrowDownRight className="w-5 h-5 text-rose-400" />
+              <ArrowDownRight className="w-5 h-5 text-rose-550 dark:text-rose-400" />
             </div>
-            <div className="flex items-center gap-1 text-[10px] text-rose-400 bg-rose-500/10 px-2 py-0.5 rounded-full font-medium">
+            <div className="flex items-center gap-1 text-[10px] text-rose-600 dark:text-rose-400 bg-rose-550/10 px-2 py-0.5 rounded-full font-semibold">
               Tháng {currentMonth}
             </div>
           </div>
-          <p className="text-xs font-semibold text-slate-400">Chi tiêu tháng này</p>
-          <h3 className="text-2xl font-bold text-rose-400 mt-1 tracking-tight">
+          <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Chi tiêu tháng này</p>
+          <h3 className="text-2xl font-bold text-rose-550 dark:text-rose-400 mt-1 tracking-tight">
             {formatCurrency(currentMonthExpense)}
           </h3>
-          <p className="text-[10px] text-slate-500 mt-2">Tổng đã chi: {formatCurrency(totalExpenseAllTime)}</p>
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-2">Tổng đã chi: {formatCurrency(totalExpenseAllTime)}</p>
         </div>
       </div>
 
       {/* Middle Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Transactions (2 cols) */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 lg:col-span-2">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 lg:col-span-2 shadow-sm dark:shadow-none">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-bold text-white">Giao dịch gần đây</h3>
+            <h3 className="text-lg font-bold text-slate-800 dark:text-white">Giao dịch gần đây</h3>
             <Link 
               href="/dashboard/transactions" 
-              className="text-xs font-semibold text-indigo-400 hover:text-indigo-300"
+              className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
             >
               Xem tất cả
             </Link>
           </div>
 
           {!recentTransactions || recentTransactions.length === 0 ? (
-            <div className="text-center py-12 border border-dashed border-zinc-800 rounded-2xl">
-              <Calendar className="w-8 h-8 text-slate-600 mx-auto mb-2" />
-              <p className="text-sm text-slate-500">Chưa có giao dịch nào được ghi nhận</p>
+            <div className="text-center py-12 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl">
+              <Calendar className="w-8 h-8 text-slate-400 dark:text-slate-600 mx-auto mb-2" />
+              <p className="text-sm text-slate-400 dark:text-slate-500">Chưa có giao dịch nào được ghi nhận</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-2">
               {recentTransactions.map((t) => (
-                <div key={t.id} className="flex justify-between items-center p-3 hover:bg-zinc-800/40 rounded-xl transition-all">
+                <div key={t.id} className="flex justify-between items-center p-3 hover:bg-zinc-50 dark:hover:bg-zinc-900/40 rounded-xl transition-all border border-transparent hover:border-zinc-100 dark:hover:border-zinc-850/40">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold ${
-                      t.type === 'income' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
+                      t.type === 'income' ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
                     }`}>
                       {t.type === 'income' ? '+' : '-'}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-white truncate max-w-[180px] sm:max-w-[300px]">
+                      <p className="text-sm font-semibold text-slate-800 dark:text-white truncate max-w-[180px] sm:max-w-[300px]">
                         {t.description || t.category}
                       </p>
-                      <p className="text-[10px] text-slate-500 mt-0.5">{t.category} &bull; {formatDate(t.date)}</p>
+                      <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">{t.category} &bull; {formatDate(t.date)}</p>
                     </div>
                   </div>
                   <span className={`text-sm font-bold ${
-                    t.type === 'income' ? 'text-emerald-400' : 'text-rose-400'
+                    t.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
                   }`}>
                     {t.type === 'income' ? '+' : '-'}{formatCurrency(Number(t.amount))}
                   </span>
@@ -233,38 +233,38 @@ export default async function DashboardPage() {
         </div>
 
         {/* Debts & Loans Summary (1 col) */}
-        <div className="bg-zinc-900/60 border border-zinc-800 rounded-3xl p-6 flex flex-col justify-between">
+        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 flex flex-col justify-between shadow-sm dark:shadow-none">
           <div>
-            <h3 className="text-lg font-bold text-white mb-6">Nợ & Cho vay active</h3>
+            <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-6">Nợ & Cho vay active</h3>
             <div className="space-y-5">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-7 bg-rose-500 rounded-full" />
                   <div>
-                    <p className="text-xs text-slate-400 font-medium">Khoản nợ phải trả</p>
-                    <p className="text-lg font-bold text-white mt-0.5">{formatCurrency(totalDebtsActive)}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Khoản nợ phải trả</p>
+                    <p className="text-lg font-bold text-slate-800 dark:text-white mt-0.5">{formatCurrency(totalDebtsActive)}</p>
                   </div>
                 </div>
-                <HandCoins className="w-5 h-5 text-slate-600" />
+                <HandCoins className="w-5 h-5 text-slate-400 dark:text-slate-600" />
               </div>
 
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-7 bg-emerald-500 rounded-full" />
                   <div>
-                    <p className="text-xs text-slate-400 font-medium">Khoản cho vay phải đòi</p>
-                    <p className="text-lg font-bold text-white mt-0.5">{formatCurrency(totalLoansActive)}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Khoản cho vay phải đòi</p>
+                    <p className="text-lg font-bold text-slate-800 dark:text-white mt-0.5">{formatCurrency(totalLoansActive)}</p>
                   </div>
                 </div>
-                <HandCoins className="w-5 h-5 text-slate-600" />
+                <HandCoins className="w-5 h-5 text-slate-400 dark:text-slate-600" />
               </div>
             </div>
           </div>
 
-          <div className="mt-8 pt-4 border-t border-zinc-800/80">
+          <div className="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800/80">
             <Link
               href="/dashboard/debts-loans"
-              className="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              className="w-full py-2.5 btn-glass text-center text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer rounded-xl"
             >
               Chi tiết các khoản nợ/cho vay
             </Link>

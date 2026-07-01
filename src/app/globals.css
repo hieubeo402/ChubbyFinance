@@ -86,47 +86,46 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Apple Liquid Glass Styling for Buttons */
+/* Apple Liquid Glass Styling for Buttons - Light Mode */
 .btn-glass {
-  background: rgba(255, 255, 255, 0.45);
-  backdrop-filter: blur(12px) saturate(190%);
-  -webkit-backdrop-filter: blur(12px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #1c1c1e;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #1f2937;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s, border-color 0.15s;
 }
 
 .btn-glass:hover {
-  background: rgba(255, 255, 255, 0.55);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.5);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(0, 0, 0, 0.15);
+  transform: translateY(-0.5px);
 }
 
 .btn-glass:active {
-  background: rgba(255, 255, 255, 0.35);
-  transform: scale(0.98) translateY(0);
+  transform: scale(0.96) translateY(0);
+  background: rgba(255, 255, 255, 0.4);
 }
 
+/* Apple Liquid Glass Styling for Buttons - Dark Mode */
 .dark .btn-glass {
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: #f4f4f5;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08);
 }
 
 .dark .btn-glass:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  transform: translateY(-0.5px);
 }
 
 .dark .btn-glass:active {
   background: rgba(255, 255, 255, 0.04);
-  transform: scale(0.98) translateY(0);
+  transform: scale(0.96) translateY(0);
 }
-
