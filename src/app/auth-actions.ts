@@ -86,10 +86,11 @@ export async function signOutAction() {
 }
 
 export async function changePasswordAction(prevState: any, formData: FormData) {
+  const currentPassword = formData.get('currentPassword') as string
   const newPassword = formData.get('newPassword') as string
   const confirmNewPassword = formData.get('confirmNewPassword') as string
 
-  if (!newPassword || !confirmNewPassword) {
+  if (!currentPassword || !newPassword || !confirmNewPassword) {
     return { error: 'Vui lòng điền đầy đủ tất cả các trường.' }
   }
 
@@ -103,11 +104,15 @@ export async function changePasswordAction(prevState: any, formData: FormData) {
 
   const supabase = await createClient()
   const { error } = await supabase.auth.updateUser({
-    password: newPassword
+    password: newPassword,
+    current_password: currentPassword
   })
 
   if (error) {
     console.error('Change password error:', error)
+    if (error.message.includes('Incorrect password') || error.message.includes('invalid') || error.message.includes('Current password')) {
+      return { error: 'Mật khẩu hiện tại không chính xác hoặc không hợp lệ.' }
+    }
     return { error: error.message || 'Không thể cập nhật mật khẩu.' }
   }
 

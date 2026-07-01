@@ -110,23 +110,23 @@ body {
 }
 
 .dark .btn-glass {
-  background: rgba(24, 24, 27, 0.45);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(63, 63, 70, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #f4f4f5;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
 .dark .btn-glass:hover {
-  background: rgba(39, 39, 42, 0.55);
-  border-color: rgba(82, 82, 91, 0.45);
-  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.25), inset 0 1px 0px rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
 }
 
 .dark .btn-glass:active {
-  background: rgba(18, 18, 18, 0.55);
+  background: rgba(255, 255, 255, 0.04);
   transform: scale(0.98) translateY(0);
 }
 

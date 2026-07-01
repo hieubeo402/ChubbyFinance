@@ -171,8 +171,8 @@ export default function DashboardSidebar({ username }: { username: string }) {
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
             onClick={() => setShowProfileModal(false)}
           />
-          {/* Modal content */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 w-full max-w-sm relative z-10 shadow-2xl animate-scale-in text-left">
+          {/* Modal content - Glassmorphic design */}
+          <div className="bg-zinc-950/85 backdrop-blur-2xl border border-zinc-800/80 rounded-3xl p-6 w-full max-w-sm relative z-10 shadow-2xl animate-scale-in text-left">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <User className="w-5 h-5 text-indigo-400" />
@@ -196,7 +196,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
               </div>
             ) : (
               <form action={formAction} className="space-y-4">
-                <div className="bg-zinc-950 p-4 rounded-2xl border border-zinc-850 space-y-1">
+                <div className="bg-zinc-950/60 p-4 rounded-2xl border border-zinc-850 space-y-1">
                   <span className="text-[10px] text-slate-500 uppercase font-bold">Người dùng</span>
                   <p className="text-sm font-semibold text-white">@{username}</p>
                 </div>
@@ -207,6 +207,24 @@ export default function DashboardSidebar({ username }: { username: string }) {
                     <span>{state.error}</span>
                   </div>
                 )}
+
+                {/* Current Password */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-400" htmlFor="currentPassword">
+                    Mật khẩu hiện tại
+                  </label>
+                  <div className="relative">
+                    <KeyRound className="absolute left-3 top-3 w-4 h-4 text-slate-500" />
+                    <input
+                      id="currentPassword"
+                      name="currentPassword"
+                      type="password"
+                      placeholder="Nhập mật khẩu hiện tại"
+                      required
+                      className="w-full bg-zinc-950/60 border border-zinc-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
+                    />
+                  </div>
+                </div>
 
                 {/* New Password */}
                 <div className="space-y-1.5">
@@ -221,7 +239,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
                       type="password"
                       placeholder="Tối thiểu 6 ký tự"
                       required
-                      className="w-full bg-zinc-950 border border-zinc-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
+                      className="w-full bg-zinc-950/60 border border-zinc-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
                     />
                   </div>
                 </div>
@@ -239,7 +257,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
                       type="password"
                       placeholder="Xác nhận lại mật khẩu mới"
                       required
-                      className="w-full bg-zinc-950 border border-zinc-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
+                      className="w-full bg-zinc-950/60 border border-zinc-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
                     />
                   </div>
                 </div>
@@ -249,14 +267,14 @@ export default function DashboardSidebar({ username }: { username: string }) {
                   <button
                     type="button"
                     onClick={() => setShowProfileModal(false)}
-                    className="flex-1 bg-zinc-800 hover:bg-zinc-750 text-white font-semibold py-2.5 rounded-xl text-xs cursor-pointer transition-colors"
+                    className="flex-1 btn-glass hover:bg-white/10 dark:hover:bg-zinc-900/60 text-center font-semibold py-2.5 rounded-xl text-xs cursor-pointer transition-all border border-zinc-800/40"
                   >
                     Hủy
                   </button>
                   <button
                     type="submit"
                     disabled={isPending}
-                    className="flex-1 btn-glass font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    className="flex-1 btn-glass text-center font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                   >
                     {isPending ? (
                       <>
