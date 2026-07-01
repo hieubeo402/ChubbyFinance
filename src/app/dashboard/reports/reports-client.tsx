@@ -132,11 +132,13 @@ export default function ReportsClient({ transactions }: { transactions: Transact
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Báo cáo & Phân tích</h1>
-          <p className="text-slate-550 dark:text-slate-400 text-sm mt-1">Xu hướng tài chính và biểu đồ tương quan thu chi</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+            <span className="text-gradient">Báo cáo & Phân tích</span>
+          </h1>
+          <p className="text-slate-555 dark:text-slate-400 text-sm mt-1">Xu hướng tài chính và biểu đồ tương quan thu chi</p>
         </div>
 
-        <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2 shadow-sm dark:shadow-none">
+        <div className="glass-card rounded-xl px-4 py-2 shadow-sm dark:shadow-none flex items-center gap-3">
           <Calendar className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
           <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase">Chọn Tháng Báo Cáo:</span>
           <select
@@ -156,7 +158,7 @@ export default function ReportsClient({ transactions }: { transactions: Transact
       {/* Selected Month Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Income Card */}
-        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
+        <div className="glass-card rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
           <div className="w-10 h-10 bg-emerald-500/10 rounded-xl flex items-center justify-center shrink-0">
             <ArrowUpCircle className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />
           </div>
@@ -167,7 +169,7 @@ export default function ReportsClient({ transactions }: { transactions: Transact
         </div>
 
         {/* Expense Card */}
-        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
+        <div className="glass-card rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
           <div className="w-10 h-10 bg-rose-500/10 rounded-xl flex items-center justify-center shrink-0">
             <ArrowDownCircle className="w-5 h-5 text-rose-550 dark:text-rose-400" />
           </div>
@@ -178,22 +180,22 @@ export default function ReportsClient({ transactions }: { transactions: Transact
         </div>
 
         {/* Net Savings */}
-        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
+        <div className="glass-card rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
           <div className="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center shrink-0">
             <TrendingUp className="w-5 h-5 text-indigo-550 dark:text-indigo-400" />
           </div>
           <div>
             <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Tích lũy ròng</p>
-            <p className={`text-lg font-bold mt-0.5 ${netSavings >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-650 dark:text-rose-400'}`}>
+            <p className={`text-lg font-bold mt-0.5 ${netSavings >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-650 dark:text-rose-450'}`}>
               {formatCurrency(netSavings)}
             </p>
           </div>
         </div>
 
         {/* Savings Rate */}
-        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
+        <div className="glass-card rounded-3xl p-5 flex items-center gap-4 shadow-sm dark:shadow-none">
           <div className="w-10 h-10 bg-purple-500/10 rounded-xl flex items-center justify-center shrink-0">
-            <Percent className="w-5 h-5 text-purple-550 dark:text-purple-400" />
+            <Percent className="w-5 h-5 text-purple-555 dark:text-purple-400" />
           </div>
           <div>
             <p className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Tỷ lệ tích lũy</p>
@@ -208,7 +210,7 @@ export default function ReportsClient({ transactions }: { transactions: Transact
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Chart 1: 6-Month Comparison (Bar Chart) */}
-        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
+        <div className="glass-card rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
           <div className="flex items-center gap-2 mb-2">
             <BarChart3 className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
             <h3 className="text-lg font-bold text-slate-800 dark:text-white">So sánh Thu nhập vs Chi tiêu (6 Tháng qua)</h3>
@@ -243,14 +245,14 @@ export default function ReportsClient({ transactions }: { transactions: Transact
               </ResponsiveContainer>
             </div>
           ) : (
-            <div className="h-80 w-full flex items-center justify-center bg-zinc-50 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
+            <div className="h-80 w-full flex items-center justify-center bg-white/20 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
               <span className="text-xs text-slate-400 dark:text-slate-500">Đang chuẩn bị biểu đồ...</span>
             </div>
           )}
         </div>
 
         {/* Chart 2: Daily Transaction Flow for Selected Month (Area Chart) */}
-        <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
+        <div className="glass-card rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
           <div className="flex items-center gap-2 mb-2">
             <LineIcon className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
             <h3 className="text-lg font-bold text-slate-800 dark:text-white">Dòng chảy tiền tệ hàng ngày (Tháng {selectedMonthYear})</h3>
@@ -295,7 +297,7 @@ export default function ReportsClient({ transactions }: { transactions: Transact
               </ResponsiveContainer>
             </div>
           ) : (
-            <div className="h-80 w-full flex items-center justify-center bg-zinc-50 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
+            <div className="h-80 w-full flex items-center justify-center bg-white/20 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
               <span className="text-xs text-slate-400 dark:text-slate-500">Đang chuẩn bị biểu đồ...</span>
             </div>
           )}

@@ -107,12 +107,14 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">Quản lý giao dịch</h1>
+          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+            <span className="text-gradient">Quản lý giao dịch</span>
+          </h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Lịch sử thu nhập, lương thưởng và chi tiêu chi tiết</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-600/10 active:scale-[0.98] transition-all cursor-pointer text-sm"
+          className="flex items-center justify-center gap-2 bg-indigo-650 hover:bg-indigo-600 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-600/10 active:scale-[0.96] transition-all cursor-pointer text-sm"
         >
           <Plus className="w-4 h-4" />
           Thêm giao dịch mới
@@ -120,7 +122,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       </div>
 
       {/* Filters Card */}
-      <div className="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
+      <div className="glass-card rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
         <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold text-sm">
           <SlidersHorizontal className="w-4 h-4" />
           <span>Bộ lọc tìm kiếm</span>
@@ -135,7 +137,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
               placeholder="Tìm theo ghi chú hoặc danh mục..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 pl-11 pr-4 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 pl-11 pr-4 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
             />
           </div>
 
@@ -144,7 +146,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="w-full bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
             >
               <option value="all">Tất cả các loại</option>
               <option value="income">Thu nhập (Income)</option>
@@ -157,7 +159,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
             <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="w-full bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
             >
               <option value="all">Tất cả danh mục</option>
               {allCategories.map((cat) => (
@@ -173,20 +175,20 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
               value={startDate}
               placeholder="Từ ngày"
               onChange={(e) => setStartDate(e.target.value)}
-              className="w-full bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
             />
           </div>
         </div>
 
         {/* Date end and Clear buttons */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-zinc-200 dark:border-zinc-800/40">
+        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-zinc-200/50 dark:border-zinc-800/40">
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-500">Đến ngày:</span>
             <input
               type="date"
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
-              className="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl py-1.5 px-3 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+              className="bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-1.5 px-3 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
             />
           </div>
 
@@ -199,7 +201,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                 setEndDate('')
                 setSearchTerm('')
               }}
-              className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-semibold flex items-center gap-1.5 cursor-pointer"
+              className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-bold flex items-center gap-1.5 cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
               Xóa tất cả bộ lọc
@@ -209,7 +211,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       </div>
 
       {/* Transactions Table/List */}
-      <div className="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-none">
+      <div className="glass-card rounded-3xl overflow-hidden shadow-sm dark:shadow-none">
         {filteredTransactions.length === 0 ? (
           <div className="text-center py-20">
             <Calendar className="w-10 h-10 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
@@ -220,7 +222,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-zinc-200 dark:border-zinc-800/80 bg-slate-50 dark:bg-zinc-900/20 text-xs font-semibold text-slate-550 dark:text-slate-400">
+                <tr className="border-b border-zinc-200/60 dark:border-zinc-800/80 bg-white/20 dark:bg-black/20 text-xs font-semibold text-slate-500 dark:text-slate-400">
                   <th className="p-4 pl-6">Ngày</th>
                   <th className="p-4">Loại</th>
                   <th className="p-4">Danh mục</th>
@@ -229,15 +231,15 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                   <th className="p-4 pr-6 text-center w-20">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800/40 text-sm">
+              <tbody className="divide-y divide-zinc-200/50 dark:divide-zinc-800/40 text-sm">
                 {filteredTransactions.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-zinc-800/20 transition-colors group border-b border-zinc-100 dark:border-zinc-900/40">
+                  <tr key={t.id} className="hover:bg-white/40 dark:hover:bg-white/5 transition-colors group">
                     <td className="p-4 pl-6 text-slate-600 dark:text-slate-300 font-medium">{formatDate(t.date)}</td>
                     <td className="p-4">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                         t.type === 'income' 
                           ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
-                          : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                          : 'bg-rose-500/10 text-rose-600 dark:text-rose-450'
                       }`}>
                         {t.type === 'income' ? (
                           <>
@@ -255,7 +257,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                     <td className="p-4 font-semibold text-slate-850 dark:text-white">{t.category}</td>
                     <td className="p-4 text-slate-500 dark:text-slate-400 max-w-[200px] truncate">{t.description || '-'}</td>
                     <td className={`p-4 text-right font-bold text-base ${
-                      t.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'
+                      t.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-450'
                     }`}>
                       {t.type === 'income' ? '+' : '-'}{formatCurrency(t.amount)}
                     </td>
@@ -280,12 +282,12 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
-          <div className="bg-white dark:bg-zinc-950/85 backdrop-blur-2xl border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 w-full max-w-lg relative z-10 shadow-2xl animate-scale-in text-left">
+          <div className="glass-card rounded-3xl p-6 w-full max-w-lg relative z-10 shadow-2xl animate-scale-in text-left">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-slate-800 dark:text-white">Thêm giao dịch mới</h3>
               <button 
                 onClick={() => setShowAddModal(false)} 
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="text-slate-400 hover:text-slate-650 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -306,8 +308,8 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                   onClick={() => setFormType('expense')}
                   className={`py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 border transition-all cursor-pointer ${
                     formType === 'expense'
-                      ? 'bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-400 font-bold'
-                      : 'bg-zinc-100/60 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 text-slate-500 dark:text-slate-400'
+                      ? 'bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-450 font-bold'
+                      : 'bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/50 dark:border-zinc-800/80 text-slate-500 dark:text-slate-400'
                   }`}
                 >
                   <TrendingDown className="w-4 h-4" />
@@ -319,7 +321,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                   className={`py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 border transition-all cursor-pointer ${
                     formType === 'income'
                       ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-bold'
-                      : 'bg-zinc-100/60 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 text-slate-500 dark:text-slate-400'
+                      : 'bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/50 dark:border-zinc-800/80 text-slate-500 dark:text-slate-400'
                   }`}
                 >
                   <TrendingUp className="w-4 h-4" />
@@ -341,7 +343,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                     min="1"
                     placeholder="Ví dụ: 100000"
                     required
-                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                    className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
                   />
                 </div>
 
@@ -356,7 +358,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                     type="date"
                     required
                     defaultValue={new Date().toISOString().split('T')[0]}
-                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                    className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
                   />
                 </div>
               </div>
@@ -371,7 +373,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                   name="category"
                   value={formCategory}
                   onChange={(e) => setFormCategory(e.target.value)}
-                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                  className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                 >
                   {formType === 'expense'
                     ? EXPENSE_CATEGORIES.map((cat) => (
@@ -397,7 +399,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                   name="description"
                   rows={3}
                   placeholder="Ví dụ: Ăn trưa với đồng nghiệp, Nhận lương tháng 7"
-                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                  className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
                 />
               </div>
 
@@ -412,7 +414,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                 <button
                   type="submit"
                   disabled={isPendingAdd}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm shadow-md shadow-indigo-600/10 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="flex-1 bg-indigo-650 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl text-sm shadow-md shadow-indigo-600/10 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.96]"
                 >
                   {isPendingAdd ? (
                     <>

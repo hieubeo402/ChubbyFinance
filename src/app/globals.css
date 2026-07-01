@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: 240 10% 98%;
+  --background: 0 0% 100%; /* Pure White */
   --foreground: 240 10% 3.9%;
   --card: 0 0% 100%;
   --card-foreground: 240 10% 3.9%;
@@ -26,26 +26,26 @@
 }
 
 .dark {
-  --background: 240 10% 3.9%;
-  --foreground: 0 0% 98%;
-  --card: 240 10% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 240 10% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 240 5.9% 10%;
+  --background: 0 0% 0%; /* Pure Black */
+  --foreground: 0 0% 100%;
+  --card: 0 0% 0%;
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 0%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 0%;
   --secondary: 240 3.7% 15.9%;
-  --secondary-foreground: 0 0% 98%;
+  --secondary-foreground: 0 0% 100%;
   --muted: 240 3.7% 15.9%;
   --muted-foreground: 240 5% 64.9%;
   --accent: 240 3.7% 15.9%;
-  --accent-foreground: 0 0% 98%;
+  --accent-foreground: 0 0% 100%;
   --destructive: 346.8 77.2% 49.8%;
   --destructive-foreground: 355.7 100% 97.3%;
   --success: 142.1 70.6% 45.3%;
   --success-foreground: 144.4 96.1% 90.4%;
-  --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
+  --border: 240 3.7% 12%;
+  --input: 240 3.7% 12%;
   --ring: 240 4.9% 83.9%;
 }
 
@@ -86,48 +86,74 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-/* Apple Liquid Glass Styling for Buttons - Light Mode */
+/* Premium text gradient styling */
+.text-gradient {
+  background: linear-gradient(135deg, #6366f1 10%, #a855f7 50%, #ec4899 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Apple Liquid Glass Panels (Cards) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+.dark .glass-card {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0px rgba(255, 255, 255, 0.06);
+}
+
+/* Apple Liquid Glass Buttons - Light Mode */
 .btn-glass {
-  background: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(35px) saturate(210%);
+  -webkit-backdrop-filter: blur(35px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   color: #1f2937;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01), inset 0 1px 1px rgba(255, 255, 255, 0.7);
-  transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s, border-color 0.15s;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+  transition: transform 0.12s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 
 .btn-glass:hover {
-  background: rgba(255, 255, 255, 0.75);
-  border-color: rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.6);
   transform: translateY(-0.5px);
 }
 
 .btn-glass:active {
-  transform: scale(0.96) translateY(0);
-  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0.95) translateY(0);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-/* Apple Liquid Glass Styling for Buttons - Dark Mode */
+/* Apple Liquid Glass Buttons - Dark Mode */
 .dark .btn-glass {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px) saturate(190%);
-  -webkit-backdrop-filter: blur(20px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(35px) saturate(210%);
+  -webkit-backdrop-filter: blur(35px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   color: #f4f4f5;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), inset 0 1px 0px rgba(255, 255, 255, 0.08);
 }
 
 .dark .btn-glass:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 6px 35px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3), inset 0 1px 0px rgba(255, 255, 255, 0.12);
   transform: translateY(-0.5px);
 }
 
 .dark .btn-glass:active {
-  background: rgba(255, 255, 255, 0.04);
-  transform: scale(0.96) translateY(0);
+  background: rgba(255, 255, 255, 0.02);
+  transform: scale(0.95) translateY(0);
 }
 
 /* Page fade-in transition animation */
