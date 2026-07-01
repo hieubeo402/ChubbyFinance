@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { formatCurrency, getMonthYearString, formatDate } from '@/lib/utils'
 import { 
   BarChart, 
@@ -71,7 +71,7 @@ export default function ReportsClient({ transactions }: { transactions: Transact
   })
 
   // 2. Prepare 6-Month Comparison Data
-  const getLast6MonthsData = () => {
+  const monthlyTrendData = useMemo(() => {
     const result = []
     for (let i = -5; i <= 0; i++) {
       const d = new Date()
@@ -89,13 +89,11 @@ export default function ReportsClient({ transactions }: { transactions: Transact
       })
     }
     return result
-  }
-
-  const monthlyTrendData = getLast6MonthsData()
+  }, [transactions])
 
   // 3. Prepare Daily Data for Selected Month
-  const getDailyData = (selectedMY: string) => {
-    const [mStr, yStr] = selectedMY.split('-')
+  const dailyData = useMemo(() => {
+    const [mStr, yStr] = selectedMonthYear.split('-')
     const monthIndex = Number(mStr) - 1
     const year = Number(yStr)
     const daysInMonth = new Date(year, monthIndex + 1, 0).getDate()
@@ -116,16 +114,17 @@ export default function ReportsClient({ transactions }: { transactions: Transact
       })
     }
     return result
-  }
-
-  const dailyData = getDailyData(selectedMonthYear)
+  }, [transactions, selectedMonthYear])
 
   // 4. Calculate Stats for Selected Month
-  const activeTransactions = transactions.filter(t => getMonthYearString(t.date) === selectedMonthYear)
-  const monthIncome = activeTransactions.filter(t => t.type === 'income').reduce((sum, t) => sum + Number(t.amount), 0)
-  const monthExpense = activeTransactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + Number(t.amount), 0)
-  const netSavings = monthIncome - monthExpense
-  const savingsRate = monthIncome > 0 ? (netSavings / monthIncome) * 100 : 0
+  const { monthIncome, monthExpense, netSavings, savingsRate } = useMemo(() => {
+    const activeTransactions = transactions.filter(t => getMonthYearString(t.date) === selectedMonthYear)
+    const income = activeTransactions.filter(t => t.type === 'income').reduce((sum, t) => sum + Number(t.amount), 0)
+    const expense = activeTransactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + Number(t.amount), 0)
+    const net = income - expense
+    const rate = income > 0 ? (net / income) * 100 : 0
+    return { monthIncome: income, monthExpense: expense, netSavings: net, savingsRate: rate }
+  }, [transactions, selectedMonthYear])
 
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-8 animate-page">
@@ -216,39 +215,38 @@ export default function ReportsClient({ transactions }: { transactions: Transact
             <h3 className="text-lg font-bold text-slate-800 dark:text-white">So sánh Thu nhập vs Chi tiêu (6 Tháng qua)</h3>
           </div>
 
-          {mounted ? (
-            <div className="h-80 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={monthlyTrendData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-                  <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} />
-                  <YAxis 
-                    stroke="#64748b" 
-                    fontSize={10} 
-                    tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`}
-                    tickLine={false}
-                  />
-                  <Tooltip 
-                    formatter={(value) => formatCurrency(Number(value))}
-                    contentStyle={{ 
-                      backgroundColor: 'var(--color-card)', 
-                      borderColor: 'var(--color-border)', 
-                      borderRadius: '12px',
-                      color: 'var(--color-foreground)'
-                    }}
-                    labelStyle={{ color: 'var(--color-foreground)', fontWeight: 'bold' }}
-                  />
-                  <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Bar dataKey="Thu nhập" fill="#10b981" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="Chi tiêu" fill="#f43f5e" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <div className="h-80 w-full flex items-center justify-center bg-white/20 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
-              <span className="text-xs text-slate-400 dark:text-slate-500">Đang chuẩn bị biểu đồ...</span>
-            </div>
-          )}
+          {useMemo(() => {
+            if (!mounted) return null
+            return (
+              <div className="h-80 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlyTrendData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                    <XAxis dataKey="name" stroke="#64748b" fontSize={11} tickLine={false} />
+                    <YAxis 
+                      stroke="#64748b" 
+                      fontSize={10} 
+                      tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`}
+                      tickLine={false}
+                    />
+                    <Tooltip 
+                      formatter={(value) => formatCurrency(Number(value))}
+                      contentStyle={{ 
+                        backgroundColor: 'var(--color-card)', 
+                        borderColor: 'var(--color-border)', 
+                        borderRadius: '12px',
+                        color: 'var(--color-foreground)'
+                      }}
+                      labelStyle={{ color: 'var(--color-foreground)', fontWeight: 'bold' }}
+                    />
+                    <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                    <Bar dataKey="Thu nhập" fill="#10b981" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="Chi tiêu" fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )
+          }, [mounted, monthlyTrendData])}
         </div>
 
         {/* Chart 2: Daily Transaction Flow for Selected Month (Area Chart) */}
@@ -258,49 +256,48 @@ export default function ReportsClient({ transactions }: { transactions: Transact
             <h3 className="text-lg font-bold text-slate-800 dark:text-white">Dòng chảy tiền tệ hàng ngày (Tháng {selectedMonthYear})</h3>
           </div>
 
-          {mounted ? (
-            <div className="h-80 w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={dailyData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="incomeGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="expenseGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.2}/>
-                      <stop offset="95%" stopColor="#f43f5e" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
-                  <XAxis dataKey="day" stroke="#64748b" fontSize={10} tickLine={false} />
-                  <YAxis 
-                    stroke="#64748b" 
-                    fontSize={10} 
-                    tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-                    tickLine={false}
-                  />
-                  <Tooltip 
-                    formatter={(value) => formatCurrency(Number(value))}
-                    contentStyle={{ 
-                      backgroundColor: 'var(--color-card)', 
-                      borderColor: 'var(--color-border)', 
-                      borderRadius: '12px',
-                      color: 'var(--color-foreground)'
-                    }}
-                    labelStyle={{ color: 'var(--color-foreground)', fontWeight: 'bold' }}
-                  />
-                  <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                  <Area type="monotone" dataKey="Thu nhập" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#incomeGrad)" />
-                  <Area type="monotone" dataKey="Chi tiêu" stroke="#f43f5e" strokeWidth={2} fillOpacity={1} fill="url(#expenseGrad)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          ) : (
-            <div className="h-80 w-full flex items-center justify-center bg-white/20 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
-              <span className="text-xs text-slate-400 dark:text-slate-500">Đang chuẩn bị biểu đồ...</span>
-            </div>
-          )}
+          {useMemo(() => {
+            if (!mounted) return null
+            return (
+              <div className="h-80 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={dailyData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="incomeGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.2}/>
+                        <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="expenseGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.2}/>
+                        <stop offset="95%" stopColor="#f43f5e" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                    <XAxis dataKey="day" stroke="#64748b" fontSize={10} tickLine={false} />
+                    <YAxis 
+                      stroke="#64748b" 
+                      fontSize={10} 
+                      tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                      tickLine={false}
+                    />
+                    <Tooltip 
+                      formatter={(value) => formatCurrency(Number(value))}
+                      contentStyle={{ 
+                        backgroundColor: 'var(--color-card)', 
+                        borderColor: 'var(--color-border)', 
+                        borderRadius: '12px',
+                        color: 'var(--color-foreground)'
+                      }}
+                      labelStyle={{ color: 'var(--color-foreground)', fontWeight: 'bold' }}
+                    />
+                    <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                    <Area type="monotone" dataKey="Thu nhập" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#incomeGrad)" />
+                    <Area type="monotone" dataKey="Chi tiêu" stroke="#f43f5e" strokeWidth={2} fillOpacity={1} fill="url(#expenseGrad)" />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            )
+          }, [mounted, dailyData])}
         </div>
 
       </div>

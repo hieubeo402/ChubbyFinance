@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import BudgetClient from './budget-client'
+import BudgetSkeleton from './budget-skeleton'
 
 export const dynamic = 'force-dynamic'
 
-export default async function BudgetPage() {
+async function BudgetData() {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -27,5 +28,13 @@ export default async function BudgetPage() {
       initialBudgets={budgets || []}
       transactions={transactions || []}
     />
+  )
+}
+
+export default function BudgetPage() {
+  return (
+    <Suspense fallback={<BudgetSkeleton />}>
+      <BudgetData />
+    </Suspense>
   )
 }

@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import TransactionsClient from './transactions-client'
+import TransactionsSkeleton from './transactions-skeleton'
 
 export const dynamic = 'force-dynamic'
 
-export default async function TransactionsPage() {
+async function TransactionsData() {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -20,4 +21,12 @@ export default async function TransactionsPage() {
     .order('date', { ascending: false })
 
   return <TransactionsClient initialTransactions={transactions || []} />
+}
+
+export default function TransactionsPage() {
+  return (
+    <Suspense fallback={<TransactionsSkeleton />}>
+      <TransactionsData />
+    </Suspense>
+  )
 }

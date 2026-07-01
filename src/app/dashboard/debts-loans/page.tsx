@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import DebtsLoansClient from './debts-loans-client'
+import DebtsLoansSkeleton from './debts-loans-skeleton'
 
 export const dynamic = 'force-dynamic'
 
-export default async function DebtsLoansPage() {
+async function DebtsLoansData() {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -36,4 +37,12 @@ export default async function DebtsLoansPage() {
     : []
 
   return <DebtsLoansClient initialData={formattedData} />
+}
+
+export default function DebtsLoansPage() {
+  return (
+    <Suspense fallback={<DebtsLoansSkeleton />}>
+      <DebtsLoansData />
+    </Suspense>
+  )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useActionState, useEffect } from 'react'
+import React, { useState, useActionState, useEffect, useMemo } from 'react'
 import { saveBudgetAction } from './actions'
 import { formatCurrency, getMonthYearString } from '@/lib/utils'
 import { 
@@ -74,32 +74,42 @@ export default function BudgetClient({
   }, [state])
 
   // Get current budget for selected month
-  const activeBudget = budgets.find((b) => b.month_year === selectedMonthYear)
+  const activeBudget = useMemo(() => {
+    return budgets.find((b) => b.month_year === selectedMonthYear)
+  }, [budgets, selectedMonthYear])
 
   // Filter transactions of selected month-year
-  const monthTransactions = transactions.filter((t) => {
-    return getMonthYearString(t.date) === selectedMonthYear
-  })
+  const monthTransactions = useMemo(() => {
+    return transactions.filter((t) => {
+      return getMonthYearString(t.date) === selectedMonthYear
+    })
+  }, [transactions, selectedMonthYear])
 
   // Calculate total expenses for the selected month
-  const totalExpense = monthTransactions
-    .filter((t) => t.type === 'expense')
-    .reduce((sum, t) => sum + Number(t.amount), 0)
+  const totalExpense = useMemo(() => {
+    return monthTransactions
+      .filter((t) => t.type === 'expense')
+      .reduce((sum, t) => sum + Number(t.amount), 0)
+  }, [monthTransactions])
 
   // Group expenses by category
-  const categoryExpenses = monthTransactions
-    .filter((t) => t.type === 'expense')
-    .reduce((acc, t) => {
-      const amt = Number(t.amount)
-      acc[t.category] = (acc[t.category] || 0) + amt
-      return acc
-    }, {} as Record<string, number>)
+  const categoryExpenses = useMemo(() => {
+    return monthTransactions
+      .filter((t) => t.type === 'expense')
+      .reduce((acc, t) => {
+        const amt = Number(t.amount)
+        acc[t.category] = (acc[t.category] || 0) + amt
+        return acc
+      }, {} as Record<string, number>)
+  }, [monthTransactions])
 
   // Convert to array format for Recharts
-  const chartData = Object.entries(categoryExpenses).map(([name, value]) => ({
-    name,
-    value
-  }))
+  const chartData = useMemo(() => {
+    return Object.entries(categoryExpenses).map(([name, value]) => ({
+      name,
+      value
+    }))
+  }, [categoryExpenses])
 
   const budgetLimit = activeBudget ? Number(activeBudget.monthly_budget) : 0
   const fixedIncome = activeBudget ? Number(activeBudget.fixed_income) : 0
@@ -361,44 +371,43 @@ export default function BudgetClient({
             ) : (
               <div className="space-y-6">
                 {/* Recharts Donut Pie Chart */}
-                {mounted ? (
-                  <div className="h-44 w-full relative flex items-center justify-center">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                           data={chartData}
-                           cx="50%"
-                           cy="50%"
-                           innerRadius={50}
-                           outerRadius={75}
-                           paddingAngle={3}
-                           dataKey="value"
-                        >
-                          {chartData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                        <Tooltip 
-                          formatter={(value) => formatCurrency(Number(value))}
-                          contentStyle={{ 
-                            backgroundColor: 'var(--color-card)', 
-                            borderColor: 'var(--color-border)', 
-                            borderRadius: '12px',
-                            color: 'var(--color-foreground)'
-                          }}
-                        />
-                      </PieChart>
-                    </ResponsiveContainer>
-                    <div className="absolute text-center pointer-events-none">
-                      <span className="text-base font-extrabold text-slate-800 dark:text-white">{formatCurrency(totalExpense)}</span>
-                      <p className="text-[8px] text-slate-500 font-bold uppercase tracking-wider">Tổng chi tiêu</p>
+                {useMemo(() => {
+                  if (!mounted) return null
+                  return (
+                    <div className="h-44 w-full relative flex items-center justify-center">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                             data={chartData}
+                             cx="50%"
+                             cy="50%"
+                             innerRadius={50}
+                             outerRadius={75}
+                             paddingAngle={3}
+                             dataKey="value"
+                          >
+                            {chartData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                          </Pie>
+                          <Tooltip 
+                            formatter={(value) => formatCurrency(Number(value))}
+                            contentStyle={{ 
+                              backgroundColor: 'var(--color-card)', 
+                              borderColor: 'var(--color-border)', 
+                              borderRadius: '12px',
+                              color: 'var(--color-foreground)'
+                            }}
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
+                      <div className="absolute text-center pointer-events-none">
+                        <span className="text-base font-extrabold text-slate-800 dark:text-white">{formatCurrency(totalExpense)}</span>
+                        <p className="text-[8px] text-slate-500 font-bold uppercase tracking-wider">Tổng chi tiêu</p>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="h-44 w-full flex items-center justify-center bg-white/20 dark:bg-zinc-950/20 border border-zinc-150 dark:border-zinc-800/20 rounded-2xl animate-pulse">
-                    <span className="text-xs text-slate-400 dark:text-slate-500">Đang chuẩn bị biểu đồ...</span>
-                  </div>
-                )}
+                  )
+                }, [mounted, chartData, totalExpense])}
 
                 {/* Categories Table list with progress lines */}
                 <div className="space-y-3 pt-2">

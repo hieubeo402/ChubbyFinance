@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import ReportsClient from './reports-client'
+import ReportsSkeleton from './reports-skeleton'
 
 export const dynamic = 'force-dynamic'
 
-export default async function ReportsPage() {
+async function ReportsData() {
   const supabase = await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
@@ -20,4 +21,12 @@ export default async function ReportsPage() {
     .eq('user_id', user.id)
 
   return <ReportsClient transactions={transactions || []} />
+}
+
+export default function ReportsPage() {
+  return (
+    <Suspense fallback={<ReportsSkeleton />}>
+      <ReportsData />
+    </Suspense>
+  )
 }

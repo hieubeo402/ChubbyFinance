@@ -138,6 +138,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  prefetch={false}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                     isActive
                       ? 'bg-indigo-500/10 dark:bg-gradient-to-r dark:from-indigo-600/10 dark:to-purple-600/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-semibold shadow-sm animate-active-tab'
@@ -175,6 +176,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={false}
               className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium transition-all ${
                 isActive
                   ? 'text-indigo-600 dark:text-indigo-400 font-bold scale-105 animate-active-tab'
