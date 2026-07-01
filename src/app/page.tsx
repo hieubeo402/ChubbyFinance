@@ -44,7 +44,7 @@ export default function LandingPage() {
           Nền tảng quản lý tài chính thế hệ mới
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight max-w-4xl mx-auto">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight max-w-4xl mx-auto">
           Kiểm soát tài chính <br />
           <span className="text-[#5D3FD3]">
             Thông minh & Tối giản.
