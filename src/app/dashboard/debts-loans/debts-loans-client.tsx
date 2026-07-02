@@ -56,6 +56,27 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
   const [addState, addFormAction, isPendingAdd] = useActionState(addDebtLoanAction, null)
   const [payState, payFormAction, isPendingPay] = useActionState(addPaymentAction, null)
 
+  // Form currency formatting state
+  const [totalAmountInput, setTotalAmountInput] = useState('')
+  const [rawTotalAmount, setRawTotalAmount] = useState('')
+  const [amountPaidInput, setAmountPaidInput] = useState('')
+  const [rawAmountPaid, setRawAmountPaid] = useState('')
+
+  const handleTotalAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const cleanValue = value.replace(/\D/g, '')
+    setRawTotalAmount(cleanValue)
+    setTotalAmountInput(cleanValue ? Number(cleanValue).toLocaleString('en-US') : '')
+  }
+
+  const handleAmountPaidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const cleanValue = value.replace(/\D/g, '')
+    setRawAmountPaid(cleanValue)
+    setAmountPaidInput(cleanValue ? Number(cleanValue).toLocaleString('en-US') : '')
+  }
+
+
   // Keep state updated
   useEffect(() => {
     setData(initialData)
@@ -65,6 +86,8 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
   useEffect(() => {
     if (addState?.success) {
       setShowAddModal(false)
+      setTotalAmountInput('')
+      setRawTotalAmount('')
     }
   }, [addState])
 
@@ -72,6 +95,8 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
     if (payState?.success) {
       setShowPayModal(false)
       setSelectedItem(null)
+      setAmountPaidInput('')
+      setRawAmountPaid('')
     }
   }, [payState])
 
@@ -500,14 +525,15 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   Tổng số tiền gốc <span className="text-rose-500">*</span>
                 </label>
                 <input
-                  id="total_amount"
-                  name="total_amount"
-                  type="number"
-                  min="1"
-                  placeholder="Ví dụ: 5000000"
+                  id="total_amount-display"
+                  type="text"
+                  value={totalAmountInput}
+                  onChange={handleTotalAmountChange}
+                  placeholder="Ví dụ: 5,000,000"
                   required
-                  className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-650 focus:outline-none focus:border-indigo-500"
                 />
+                <input type="hidden" name="total_amount" value={rawTotalAmount} />
               </div>
 
               {/* Due Date */}
@@ -592,15 +618,15 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
                   Số tiền thanh toán <span className="text-rose-500">*</span>
                 </label>
                 <input
-                  id="amount_paid"
-                  name="amount_paid"
-                  type="number"
-                  min="1"
-                  max={selectedItem.remaining_amount}
-                  placeholder={`Tối đa ${selectedItem.remaining_amount}`}
+                  id="amount_paid-display"
+                  type="text"
+                  value={amountPaidInput}
+                  onChange={handleAmountPaidChange}
+                  placeholder={`Ví dụ: ${selectedItem.remaining_amount.toLocaleString('en-US')}`}
                   required
                   className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500"
                 />
+                <input type="hidden" name="amount_paid" value={rawAmountPaid} />
               </div>
 
               {/* Paid date */}

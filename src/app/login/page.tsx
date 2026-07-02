@@ -3,11 +3,12 @@
 import React, { useActionState, useState } from 'react'
 import Link from 'next/link'
 import { signInAction } from '../auth-actions'
-import { Wallet, KeyRound, User, Loader2, Info } from 'lucide-react'
+import { Wallet, KeyRound, User, Loader2, Info, Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(signInAction, null)
   const [showForgotModal, setShowForgotModal] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-[#F9FAFB] p-4 relative overflow-hidden selection:bg-[#5D3FD3]/10 selection:text-[#5D3FD3]">
@@ -76,11 +77,18 @@ export default function LoginPage() {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Nhập mật khẩu"
                   required
-                  className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
+                  className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-11 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3.5 top-3.5 text-slate-400 hover:text-[#5D3FD3] transition-colors cursor-pointer"
+                >
+                  {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
+                </button>
               </div>
             </div>
 

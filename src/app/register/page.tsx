@@ -1,14 +1,16 @@
 'use client'
 
-import React, { useActionState, useEffect } from 'react'
+import React, { useActionState, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signUpAction } from '../auth-actions'
-import { Wallet, KeyRound, User, Loader2, Info, CheckCircle2 } from 'lucide-react'
+import { Wallet, KeyRound, User, Loader2, Info, CheckCircle2, Eye, EyeOff } from 'lucide-react'
 
 export default function RegisterPage() {
   const [state, formAction, isPending] = useActionState(signUpAction, null)
   const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   // Redirect to login if signup is successful
   useEffect(() => {
@@ -93,11 +95,18 @@ export default function RegisterPage() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     placeholder="Tối thiểu 6 ký tự"
                     required
-                    className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
+                    className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-11 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-[#5D3FD3] transition-colors cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
+                  </button>
                 </div>
               </div>
 
@@ -110,11 +119,18 @@ export default function RegisterPage() {
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
-                    type="password"
+                    type={showConfirmPassword ? 'text' : 'password'}
                     placeholder="Xác nhận lại mật khẩu"
                     required
-                    className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
+                    className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-11 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-[#5D3FD3] transition-colors cursor-pointer"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
+                  </button>
                 </div>
               </div>
 

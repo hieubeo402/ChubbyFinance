@@ -37,6 +37,16 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
   // Form states
   const [formType, setFormType] = useState('expense')
   const [formCategory, setFormCategory] = useState(EXPENSE_CATEGORIES[0])
+  const [amountInput, setAmountInput] = useState('')
+  const [rawAmount, setRawAmount] = useState('')
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const cleanValue = value.replace(/\D/g, '')
+    setRawAmount(cleanValue)
+    setAmountInput(cleanValue ? Number(cleanValue).toLocaleString('en-US') : '')
+  }
+
 
   // Filter states
   const [filterType, setFilterType] = useState('all')
@@ -69,6 +79,8 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       // Reset form variables
       setFormType('expense')
       setFormCategory(EXPENSE_CATEGORIES[0])
+      setAmountInput('')
+      setRawAmount('')
     }
   }, [state])
 
@@ -333,18 +345,19 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Amount */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="amount">
+                  <label className="text-xs font-semibold text-slate-550 dark:text-slate-400" htmlFor="amount-display">
                     Số tiền (VND) <span className="text-rose-500">*</span>
                   </label>
                   <input
-                    id="amount"
-                    name="amount"
-                    type="number"
-                    min="1"
-                    placeholder="Ví dụ: 100000"
+                    id="amount-display"
+                    type="text"
+                    value={amountInput}
+                    onChange={handleAmountChange}
+                    placeholder="Ví dụ: 100,000"
                     required
                     className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
                   />
+                  <input type="hidden" name="amount" value={rawAmount} />
                 </div>
 
                 {/* Date */}

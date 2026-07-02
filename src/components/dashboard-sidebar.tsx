@@ -19,13 +19,29 @@ import {
   X,
   Loader2,
   CheckCircle2,
-  Settings
+  Settings,
+  Eye,
+  EyeOff
 } from 'lucide-react'
 
 export default function DashboardSidebar({ username }: { username: string }) {
   const pathname = usePathname()
   const [showProfileModal, setShowProfileModal] = useState(false)
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+
+  // Password visibility states
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false)
+
+  // Reset password visibilities when modal is closed
+  useEffect(() => {
+    if (!showProfileModal) {
+      setShowCurrentPassword(false)
+      setShowNewPassword(false)
+      setShowConfirmNewPassword(false)
+    }
+  }, [showProfileModal])
 
   // Change password action state
   const [state, formAction, isPending] = useActionState(changePasswordAction, null)
@@ -264,11 +280,18 @@ export default function DashboardSidebar({ username }: { username: string }) {
                     <input
                       id="currentPassword"
                       name="currentPassword"
-                      type="password"
+                      type={showCurrentPassword ? 'text' : 'password'}
                       placeholder="Nhập mật khẩu hiện tại"
                       required
-                      className="w-full bg-zinc-550/20 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
+                      className="w-full bg-zinc-550/20 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-850 rounded-xl py-2.5 pl-10 pr-10 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                      className="absolute right-3 top-3 text-slate-400 hover:text-indigo-500 transition-colors cursor-pointer"
+                    >
+                      {showCurrentPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
                   </div>
                 </div>
 
@@ -282,11 +305,18 @@ export default function DashboardSidebar({ username }: { username: string }) {
                     <input
                       id="newPassword"
                       name="newPassword"
-                      type="password"
+                      type={showNewPassword ? 'text' : 'password'}
                       placeholder="Tối thiểu 6 ký tự"
                       required
-                      className="w-full bg-zinc-550/20 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
+                      className="w-full bg-zinc-550/20 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-850 rounded-xl py-2.5 pl-10 pr-10 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3 top-3 text-slate-400 hover:text-indigo-500 transition-colors cursor-pointer"
+                    >
+                      {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
                   </div>
                 </div>
 
@@ -300,11 +330,18 @@ export default function DashboardSidebar({ username }: { username: string }) {
                     <input
                       id="confirmNewPassword"
                       name="confirmNewPassword"
-                      type="password"
+                      type={showConfirmNewPassword ? 'text' : 'password'}
                       placeholder="Xác nhận lại mật khẩu mới"
                       required
-                      className="w-full bg-zinc-550/20 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
+                      className="w-full bg-zinc-550/20 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-850 rounded-xl py-2.5 pl-10 pr-10 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmNewPassword(!showConfirmNewPassword)}
+                      className="absolute right-3 top-3 text-slate-400 hover:text-indigo-500 transition-colors cursor-pointer"
+                    >
+                      {showConfirmNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
                   </div>
                 </div>
 

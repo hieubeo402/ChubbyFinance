@@ -56,6 +56,48 @@ export default function BudgetClient({
   // Action State
   const [state, formAction, isPending] = useActionState(saveBudgetAction, null)
 
+  // Form currency formatting state
+  const [fixedIncomeInput, setFixedIncomeInput] = useState('')
+  const [rawFixedIncome, setRawFixedIncome] = useState('')
+  const [monthlyBudgetInput, setMonthlyBudgetInput] = useState('')
+  const [rawMonthlyBudget, setRawMonthlyBudget] = useState('')
+
+  const activeBudget = useMemo(() => {
+    return budgets.find((b) => b.month_year === selectedMonthYear)
+  }, [budgets, selectedMonthYear])
+
+  useEffect(() => {
+    if (activeBudget) {
+      const fi = activeBudget.fixed_income ? String(Number(activeBudget.fixed_income)) : ''
+      setRawFixedIncome(fi)
+      setFixedIncomeInput(fi ? Number(fi).toLocaleString('en-US') : '')
+
+      const mb = activeBudget.monthly_budget ? String(Number(activeBudget.monthly_budget)) : ''
+      setRawMonthlyBudget(mb)
+      setMonthlyBudgetInput(mb ? Number(mb).toLocaleString('en-US') : '')
+    } else {
+      setRawFixedIncome('')
+      setFixedIncomeInput('')
+      setRawMonthlyBudget('')
+      setMonthlyBudgetInput('')
+    }
+  }, [activeBudget, isEditing])
+
+  const handleFixedIncomeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const cleanValue = value.replace(/\D/g, '')
+    setRawFixedIncome(cleanValue)
+    setFixedIncomeInput(cleanValue ? Number(cleanValue).toLocaleString('en-US') : '')
+  }
+
+  const handleMonthlyBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const cleanValue = value.replace(/\D/g, '')
+    setRawMonthlyBudget(cleanValue)
+    setMonthlyBudgetInput(cleanValue ? Number(cleanValue).toLocaleString('en-US') : '')
+  }
+
+
   // Mounting check to prevent hydration mismatch for Recharts
   useEffect(() => {
     setMounted(true)
@@ -73,10 +115,6 @@ export default function BudgetClient({
     }
   }, [state])
 
-  // Get current budget for selected month
-  const activeBudget = useMemo(() => {
-    return budgets.find((b) => b.month_year === selectedMonthYear)
-  }, [budgets, selectedMonthYear])
 
   // Filter transactions of selected month-year
   const monthTransactions = useMemo(() => {
@@ -212,15 +250,15 @@ export default function BudgetClient({
                       Nguồn thu nhập cố định hàng tháng (VND) <span className="text-rose-500">*</span>
                     </label>
                     <input
-                      id="fixed_income"
-                      name="fixed_income"
-                      type="number"
-                      min="0"
+                      id="fixed_income-display"
+                      type="text"
+                      value={fixedIncomeInput}
+                      onChange={handleFixedIncomeChange}
+                      placeholder="Ví dụ: 15,000,000"
                       required
-                      defaultValue={activeBudget ? Number(activeBudget.fixed_income) : ''}
-                      placeholder="Ví dụ: 15000000"
                       className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
                     />
+                    <input type="hidden" name="fixed_income" value={rawFixedIncome} />
                   </div>
 
                   {/* Monthly Budget limit */}
@@ -229,15 +267,15 @@ export default function BudgetClient({
                       Hạn mức chi tiêu tối đa (VND) <span className="text-rose-500">*</span>
                     </label>
                     <input
-                      id="monthly_budget"
-                      name="monthly_budget"
-                      type="number"
-                      min="1"
+                      id="monthly_budget-display"
+                      type="text"
+                      value={monthlyBudgetInput}
+                      onChange={handleMonthlyBudgetChange}
+                      placeholder="Ví dụ: 10,000,000"
                       required
-                      defaultValue={activeBudget ? Number(activeBudget.monthly_budget) : ''}
-                      placeholder="Ví dụ: 10000000"
                       className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
                     />
+                    <input type="hidden" name="monthly_budget" value={rawMonthlyBudget} />
                   </div>
                 </div>
 
