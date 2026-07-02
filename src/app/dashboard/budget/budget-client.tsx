@@ -13,9 +13,15 @@ import {
   Info,
   Loader2,
   CheckCircle2,
-  PieChart as PieIcon
+  PieChart as PieIcon,
+  Settings
 } from 'lucide-react'
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
+import dynamic from 'next/dynamic'
+
+const BudgetPieChart = dynamic(() => import('./budget-pie-chart'), {
+  ssr: false,
+  loading: () => <div className="h-44 w-full animate-pulse bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-full" />
+})
 
 interface Budget {
   id: string
@@ -409,43 +415,7 @@ export default function BudgetClient({
             ) : (
               <div className="space-y-6">
                 {/* Recharts Donut Pie Chart */}
-                {useMemo(() => {
-                  if (!mounted) return null
-                  return (
-                    <div className="h-44 w-full relative flex items-center justify-center">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                             data={chartData}
-                             cx="50%"
-                             cy="50%"
-                             innerRadius={50}
-                             outerRadius={75}
-                             paddingAngle={3}
-                             dataKey="value"
-                          >
-                            {chartData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                          </Pie>
-                          <Tooltip 
-                            formatter={(value) => formatCurrency(Number(value))}
-                            contentStyle={{ 
-                              backgroundColor: 'var(--color-card)', 
-                              borderColor: 'var(--color-border)', 
-                              borderRadius: '12px',
-                              color: 'var(--color-foreground)'
-                            }}
-                          />
-                        </PieChart>
-                      </ResponsiveContainer>
-                      <div className="absolute text-center pointer-events-none">
-                        <span className="text-base font-extrabold text-slate-800 dark:text-white">{formatCurrency(totalExpense)}</span>
-                        <p className="text-[8px] text-slate-500 font-bold uppercase tracking-wider">Tổng chi tiêu</p>
-                      </div>
-                    </div>
-                  )
-                }, [mounted, chartData, totalExpense])}
+                <BudgetPieChart chartData={chartData} totalExpense={totalExpense} colors={COLORS} />
 
                 {/* Categories Table list with progress lines */}
                 <div className="space-y-3 pt-2">

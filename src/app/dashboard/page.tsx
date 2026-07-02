@@ -37,14 +37,19 @@ export default async function DashboardPage() {
   const [
     { data: allTransactions },
     { data: currentBudget },
-    { data: debtsLoans },
-    { data: recentTransactions }
+    { data: debtsLoans }
   ] = await Promise.all([
     supabase.from('transactions').select('*').eq('user_id', user.id),
     supabase.from('monthly_budgets').select('*').eq('user_id', user.id).eq('month_year', monthYearStr).single(),
-    supabase.from('debts_loans').select('*').eq('user_id', user.id).eq('status', 'active'),
-    supabase.from('transactions').select('*').eq('user_id', user.id).order('date', { ascending: false }).limit(5)
+    supabase.from('debts_loans').select('*').eq('user_id', user.id).eq('status', 'active')
   ])
+
+  // Get recent 5 transactions locally in memory from allTransactions
+  const recentTransactions = allTransactions
+    ? [...allTransactions]
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, 5)
+    : []
 
   // Calculate totals
   let totalBalance = 0
