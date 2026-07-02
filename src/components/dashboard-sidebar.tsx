@@ -88,7 +88,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
       icon: ArrowLeftRight,
     },
     {
-      name: 'Nợ & Vy',
+      name: 'Nợ & Vay',
       href: '/dashboard/debts-loans',
       icon: HandCoins,
     },
