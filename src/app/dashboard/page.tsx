@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge'
 
 export default async function DashboardPage() {
   const supabase = await createClient()

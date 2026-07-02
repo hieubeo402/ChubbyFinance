@@ -5,6 +5,7 @@ import TransactionsClient from './transactions-client'
 import TransactionsSkeleton from './transactions-skeleton'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge'
 
 async function TransactionsData() {
   const supabase = await createClient()

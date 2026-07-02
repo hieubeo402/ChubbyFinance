@@ -5,6 +5,7 @@ import BudgetClient from './budget-client'
 import BudgetSkeleton from './budget-skeleton'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge'
 
 async function BudgetData() {
   const supabase = await createClient()

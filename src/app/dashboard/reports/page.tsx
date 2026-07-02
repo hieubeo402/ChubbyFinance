@@ -5,6 +5,7 @@ import ReportsClient from './reports-client'
 import ReportsSkeleton from './reports-skeleton'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge'
 
 async function ReportsData() {
   const supabase = await createClient()

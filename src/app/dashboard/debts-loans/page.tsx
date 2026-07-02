@@ -5,6 +5,7 @@ import DebtsLoansClient from './debts-loans-client'
 import DebtsLoansSkeleton from './debts-loans-skeleton'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'edge'
 
 async function DebtsLoansData() {
   const supabase = await createClient()
