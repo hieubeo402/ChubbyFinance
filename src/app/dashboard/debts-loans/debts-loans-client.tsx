@@ -473,9 +473,9 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
       {/* Add Debt/Loan Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
-          <div className="glass-card rounded-3xl p-6 w-full max-w-md relative z-10 shadow-2xl animate-scale-in text-left">
+          <div className="glass-card rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-md relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-slate-800 dark:text-white">Tạo khoản nợ / cho vay mới</h3>
               <button onClick={() => setShowAddModal(false)} className="text-slate-450 hover:text-slate-655 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer">
@@ -574,12 +574,12 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
       {/* Pay/Recover Payment Modal */}
       {showPayModal && selectedItem && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => {
             setShowPayModal(false)
             setSelectedItem(null)
           }} />
-          <div className="glass-card rounded-3xl p-6 w-full max-w-md relative z-10 shadow-2xl animate-scale-in text-left">
+          <div className="glass-card rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-md relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-slate-800 dark:text-white">
                 {selectedItem.type === 'debt' ? 'Trả bớt nợ' : 'Thu hồi bớt nợ'}

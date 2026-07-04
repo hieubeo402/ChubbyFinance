@@ -222,7 +222,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
         </div>
       </div>
 
-      {/* Transactions Table/List */}
+      {/* Transactions List */}
       <div className="glass-card rounded-3xl overflow-hidden shadow-sm dark:shadow-none">
         {filteredTransactions.length === 0 ? (
           <div className="text-center py-20">
@@ -231,70 +231,106 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Hãy thử thay đổi bộ lọc hoặc thêm giao dịch mới</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="border-b border-zinc-200/60 dark:border-zinc-800/80 bg-white/20 dark:bg-black/20 text-xs font-semibold text-slate-500 dark:text-slate-400">
-                  <th className="p-4 pl-6">Ngày</th>
-                  <th className="p-4">Loại</th>
-                  <th className="p-4">Danh mục</th>
-                  <th className="p-4">Ghi chú</th>
-                  <th className="p-4 text-right">Số tiền</th>
-                  <th className="p-4 pr-6 text-center w-20">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-200/50 dark:divide-zinc-800/40 text-sm">
-                {filteredTransactions.map((t) => (
-                  <tr key={t.id} className="hover:bg-white/40 dark:hover:bg-white/5 transition-colors group">
-                    <td className="p-4 pl-6 text-slate-600 dark:text-slate-300 font-medium">{formatDate(t.date)}</td>
-                    <td className="p-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
-                        t.type === 'income' 
-                          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
-                          : 'bg-rose-500/10 text-rose-600 dark:text-rose-450'
-                      }`}>
-                        {t.type === 'income' ? (
-                          <>
-                            <TrendingUp className="w-3 h-3" />
-                            Thu nhập
-                          </>
-                        ) : (
-                          <>
-                            <TrendingDown className="w-3 h-3" />
-                            Chi tiêu
-                          </>
-                        )}
-                      </span>
-                    </td>
-                    <td className="p-4 font-semibold text-slate-850 dark:text-white">{t.category}</td>
-                    <td className="p-4 text-slate-500 dark:text-slate-400 max-w-[200px] truncate">{t.description || '-'}</td>
-                    <td className={`p-4 text-right font-bold text-base ${
+          <>
+            {/* === MOBILE: Card list (shown on small screens) === */}
+            <div className="md:hidden divide-y divide-zinc-200/50 dark:divide-zinc-800/40">
+              {filteredTransactions.map((t) => (
+                <div key={t.id} className="flex items-center justify-between p-4 hover:bg-white/40 dark:hover:bg-white/5 transition-colors">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+                      t.type === 'income' ? 'bg-emerald-500/10' : 'bg-rose-500/10'
+                    }`}>
+                      {t.type === 'income'
+                        ? <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        : <TrendingDown className="w-4 h-4 text-rose-600 dark:text-rose-450" />}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-slate-800 dark:text-white truncate">
+                        {t.description || t.category}
+                      </p>
+                      <p className="text-[10px] text-slate-450 dark:text-slate-500 mt-0.5">
+                        {t.category} &bull; {formatDate(t.date)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0 ml-2">
+                    <span className={`text-sm font-bold ${
                       t.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-450'
                     }`}>
-                      {t.type === 'income' ? '+' : '-'}{formatCurrency(t.amount)}
-                    </td>
-                    <td className="p-4 pr-6 text-center">
-                      <button
-                        onClick={() => handleDelete(t.id)}
-                        disabled={isPendingDelete}
-                        className="text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer disabled:opacity-30"
-                      >
-                        <Trash2 className="w-4.5 h-4.5" />
-                      </button>
-                    </td>
+                      {t.type === 'income' ? '+' : '-'}{formatCurrency(Number(t.amount))}
+                    </span>
+                    <button
+                      onClick={() => handleDelete(t.id)}
+                      disabled={isPendingDelete}
+                      className="text-slate-400 hover:text-rose-500 p-1.5 rounded-lg hover:bg-rose-500/10 transition-all cursor-pointer disabled:opacity-30"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* === DESKTOP: Table (hidden on mobile) === */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-zinc-200/60 dark:border-zinc-800/80 bg-white/20 dark:bg-black/20 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                    <th className="p-4 pl-6">Ngày</th>
+                    <th className="p-4">Loại</th>
+                    <th className="p-4">Danh mục</th>
+                    <th className="p-4">Ghi chú</th>
+                    <th className="p-4 text-right">Số tiền</th>
+                    <th className="p-4 pr-6 text-center w-20">Thao tác</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-zinc-200/50 dark:divide-zinc-800/40 text-sm">
+                  {filteredTransactions.map((t) => (
+                    <tr key={t.id} className="hover:bg-white/40 dark:hover:bg-white/5 transition-colors group">
+                      <td className="p-4 pl-6 text-slate-600 dark:text-slate-300 font-medium">{formatDate(t.date)}</td>
+                      <td className="p-4">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                          t.type === 'income' 
+                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
+                            : 'bg-rose-500/10 text-rose-600 dark:text-rose-450'
+                        }`}>
+                          {t.type === 'income' ? (
+                            <><TrendingUp className="w-3 h-3" />Thu nhập</>
+                          ) : (
+                            <><TrendingDown className="w-3 h-3" />Chi tiêu</>
+                          )}
+                        </span>
+                      </td>
+                      <td className="p-4 font-semibold text-slate-850 dark:text-white">{t.category}</td>
+                      <td className="p-4 text-slate-500 dark:text-slate-400 max-w-[200px] truncate">{t.description || '-'}</td>
+                      <td className={`p-4 text-right font-bold text-base ${
+                        t.type === 'income' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-450'
+                      }`}>
+                        {t.type === 'income' ? '+' : '-'}{formatCurrency(t.amount)}
+                      </td>
+                      <td className="p-4 pr-6 text-center">
+                        <button
+                          onClick={() => handleDelete(t.id)}
+                          disabled={isPendingDelete}
+                          className="text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 p-1.5 rounded-lg hover:bg-rose-500/10 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 cursor-pointer disabled:opacity-30"
+                        >
+                          <Trash2 className="w-4.5 h-4.5" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 
       {/* Add Transaction Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
-          <div className="glass-card rounded-3xl p-6 w-full max-w-lg relative z-10 shadow-2xl animate-scale-in text-left">
+          <div className="glass-card rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-lg relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-slate-800 dark:text-white">Thêm giao dịch mới</h3>
               <button 

@@ -105,6 +105,26 @@ body {
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.7);
 }
 
+/* Reduce blur on mobile for better GPU performance */
+@media (max-width: 768px) {
+  .glass-card {
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+  }
+  .dark .glass-card {
+    backdrop-filter: blur(12px) saturate(170%);
+    -webkit-backdrop-filter: blur(12px) saturate(170%);
+  }
+  .btn-glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+  .dark .btn-glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+  }
+}
+
 .dark .glass-card {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(24px) saturate(190%);
@@ -172,6 +192,7 @@ body {
 
 .animate-page {
   animation: pageFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
 }
 
 /* Active tab slide-down animation */
@@ -188,5 +209,23 @@ body {
 
 .animate-active-tab {
   animation: slideDownActive 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  will-change: transform, opacity;
 }
+
+/* Respect user's prefers-reduced-motion for accessibility and perf */
+@media (prefers-reduced-motion: reduce) {
+  .animate-page,
+  .animate-active-tab {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .btn-glass,
+  .btn-glass:hover,
+  .btn-glass:active {
+    transition: none;
+    transform: none;
+  }
+}
+
 

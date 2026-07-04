@@ -154,7 +154,6 @@ export default function DashboardSidebar({ username }: { username: string }) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  prefetch={false}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                     isActive
                       ? 'bg-indigo-500/10 dark:bg-gradient-to-r dark:from-indigo-600/10 dark:to-purple-600/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-semibold shadow-sm animate-active-tab'
@@ -184,7 +183,10 @@ export default function DashboardSidebar({ username }: { username: string }) {
       </aside>
 
       {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-900/80 z-40 flex items-center justify-around px-2 pb-safe select-none transition-colors duration-300 shadow-lg">
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-900/80 z-40 flex items-end justify-around px-2 select-none transition-colors duration-300 shadow-lg"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 8px)' }}
+      >
         {menuItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname === item.href
@@ -192,8 +194,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
             <Link
               key={item.href}
               href={item.href}
-              prefetch={false}
-              className={`flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium transition-all ${
+              className={`flex flex-col items-center justify-center flex-1 py-2 text-[10px] font-medium transition-all ${
                 isActive
                   ? 'text-indigo-600 dark:text-indigo-400 font-bold scale-105 animate-active-tab'
                   : 'text-slate-500 dark:text-slate-400'
@@ -208,7 +209,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
           {/* Mobile Profile Trigger (Instead of profile page) */}
           <button
             onClick={() => setShowProfileModal(true)}
-            className="flex flex-col items-center justify-center flex-1 h-full py-1 text-[10px] font-medium text-slate-500 dark:text-slate-400 cursor-pointer"
+            className="flex flex-col items-center justify-center flex-1 py-2 text-[10px] font-medium text-slate-500 dark:text-slate-400 cursor-pointer"
           >
             <User className="w-5 h-5 mb-0.5" />
             <span>Tài khoản</span>
