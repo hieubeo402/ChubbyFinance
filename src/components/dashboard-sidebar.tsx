@@ -182,10 +182,9 @@ export default function DashboardSidebar({ username }: { username: string }) {
         </div>
       </aside>
 
-      {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet) */}
+      {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet as a floating liquid glass pill island) */}
       <nav
-        className="md:hidden fixed bottom-0 left-0 right-0 bg-white/40 dark:bg-black/30 backdrop-blur-2xl border-t border-white/30 dark:border-zinc-900/60 z-40 flex items-center justify-around px-2 py-1 select-none transition-colors duration-300 shadow-2xl"
-        style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom, 8px))' }}
+        className="md:hidden fixed bottom-6 left-4 right-4 bg-white/70 dark:bg-zinc-950/40 backdrop-blur-2xl border border-white/50 dark:border-zinc-850/80 z-40 flex items-center justify-around px-2 py-1.5 rounded-full select-none transition-all duration-300 shadow-xl shadow-rose-950/5 max-w-md mx-auto"
       >
         {menuItems.map((item) => {
           const Icon = item.icon
@@ -194,24 +193,24 @@ export default function DashboardSidebar({ username }: { username: string }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 py-1.5 my-1 mx-0.5 text-[10px] font-medium transition-all rounded-2xl border ${
+              className={`flex flex-col items-center justify-center flex-1 py-1.5 text-[9px] font-medium transition-all rounded-full border ${
                 isActive
-                  ? 'text-[#ec4899] bg-white/50 dark:bg-white/5 border-white/60 dark:border-white/10 shadow-sm scale-105 font-bold animate-active-tab'
+                  ? 'text-[#ec4899] bg-white dark:bg-white/10 border-white/80 dark:border-white/20 shadow-md shadow-pink-500/5 font-extrabold scale-[1.02] duration-300'
                   : 'text-slate-500 dark:text-slate-400 border-transparent'
               }`}
             >
-              <Icon className="w-5 h-5 mb-0.5" />
+              <Icon className="w-4.5 h-4.5 mb-0.5" />
               <span>{item.name.replace(' & ', '&')}</span>
             </Link>
           )
         })}
 
-        {/* Mobile Profile Trigger (Instead of profile page) */}
+        {/* Mobile Profile Trigger */}
         <button
           onClick={() => setShowProfileModal(true)}
-          className="flex flex-col items-center justify-center flex-1 py-1.5 my-1 mx-0.5 text-[10px] font-medium text-slate-500 dark:text-slate-400 border border-transparent cursor-pointer"
+          className="flex flex-col items-center justify-center flex-1 py-1.5 text-[9px] font-medium text-slate-500 dark:text-slate-400 border border-transparent rounded-full cursor-pointer hover:text-[#ec4899]/70 transition-all"
         >
-          <User className="w-5 h-5 mb-0.5" />
+          <User className="w-4.5 h-4.5 mb-0.5" />
           <span>Tài khoản</span>
         </button>
       </nav>
