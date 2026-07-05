@@ -11,7 +11,10 @@ import {
   AlertTriangle, 
   HandCoins, 
   Calendar,
-  PiggyBank
+  PiggyBank,
+  Bell,
+  Info,
+  BarChart3
 } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -96,6 +99,79 @@ export default async function DashboardPage() {
     })
   }
 
+  // Dynamic Notifications Builder
+  interface SystemNotification {
+    id: string
+    type: 'alert' | 'warning' | 'info' | 'report'
+    title: string
+    message: string
+    color: 'rose' | 'amber' | 'pink' | 'indigo'
+  }
+  const notifications: SystemNotification[] = []
+
+  // 1. Debt & Loan reminders
+  if (debtsLoans) {
+    debtsLoans.forEach((dl) => {
+      const dueDate = new Date(dl.due_date)
+      dueDate.setHours(0, 0, 0, 0)
+      
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      
+      const diffTime = dueDate.getTime() - today.getTime()
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+      
+      if (dl.status === 'active' && Number(dl.remaining_amount) > 0) {
+        if (diffDays < 0) {
+          notifications.push({
+            id: `overdue-${dl.id}`,
+            type: 'alert',
+            title: dl.type === 'debt' ? '🚨 Khoản nợ QUÁ HẠN' : '🚨 Khoản thu nợ QUÁ HẠN',
+            message: dl.type === 'debt' 
+              ? `Cần trả gấp ${formatCurrency(dl.remaining_amount)} cho ${dl.partner_name} (Đã trễ hạn ${Math.abs(diffDays)} ngày).`
+              : `Cần đòi ngay ${formatCurrency(dl.remaining_amount)} từ ${dl.partner_name} (Đã trễ hạn ${Math.abs(diffDays)} ngày).`,
+            color: 'rose',
+          })
+        } else if (diffDays <= 3) {
+          notifications.push({
+            id: `due-${dl.id}`,
+            type: 'warning',
+            title: dl.type === 'debt' ? '⚠️ Khoản nợ sắp đến hạn' : '⚠️ Khoản đòi nợ sắp đến hạn',
+            message: dl.type === 'debt'
+              ? `Cần chuẩn bị trả ${formatCurrency(dl.remaining_amount)} cho ${dl.partner_name} (Hạn chót: ${formatDate(dl.due_date)} - còn ${diffDays} ngày).`
+              : `Cần đòi ${formatCurrency(dl.remaining_amount)} từ ${dl.partner_name} (Hạn chót: ${formatDate(dl.due_date)} - còn ${diffDays} ngày).`,
+            color: 'amber',
+          })
+        }
+      }
+    })
+  }
+
+  // 2. Daily transaction input reminder
+  const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0')
+  const todayTransactions = allTransactions
+    ? allTransactions.filter(t => t.date === todayStr)
+    : []
+  if (todayTransactions.length === 0) {
+    notifications.push({
+      id: 'daily-reminder',
+      type: 'info',
+      title: '🐷 Ghi nhận giao dịch hôm nay',
+      message: 'Bạn chưa thêm giao dịch chi tiêu hoặc thu nhập nào cho ngày hôm nay. Hãy ghi chép lại ngay nhé!',
+      color: 'pink',
+    })
+  }
+
+  // 3. Financial report of the past month reminder
+  const prevMonth = now.getMonth() === 0 ? 12 : now.getMonth()
+  notifications.push({
+    id: 'report-reminder',
+    type: 'report',
+    title: '📊 Nhắc nhở xem báo cáo tháng',
+    message: `Báo cáo tài chính tháng ${prevMonth} đã sẵn sàng. Hãy bấm vào Báo Cáo trên Menu để xem thống kê chi tiết!`,
+    color: 'indigo',
+  })
+
   return (
     <div className="p-4 md:p-8 space-y-6 md:space-y-8 max-w-7xl mx-auto w-full animate-page">
       {/* Header */}
@@ -116,6 +192,53 @@ export default async function DashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Reminders/Notifications Center */}
+      {notifications.length > 0 && (
+        <div className="glass-card rounded-3xl p-5 md:p-6 space-y-4 shadow-sm dark:shadow-none animate-scale-in">
+          <h3 className="text-sm font-extrabold text-slate-800 dark:text-white flex items-center gap-2">
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+            </span>
+            <Bell className="w-4 h-4 text-[#ec4899]" />
+            <span>Trung tâm nhắc nhở tài chính</span>
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {notifications.map((notif) => {
+              // Color styles
+              let borderClass = 'border-rose-500/20 bg-rose-500/[0.02] text-rose-700 dark:text-rose-400'
+              let iconColor = 'text-rose-500'
+              if (notif.color === 'amber') {
+                borderClass = 'border-amber-500/20 bg-amber-500/[0.02] text-amber-700 dark:text-amber-400'
+                iconColor = 'text-amber-500'
+              } else if (notif.color === 'pink') {
+                borderClass = 'border-pink-500/20 bg-pink-500/[0.02] text-pink-700 dark:text-pink-400'
+                iconColor = 'text-pink-500'
+              } else if (notif.color === 'indigo') {
+                borderClass = 'border-indigo-500/20 bg-indigo-500/[0.02] text-indigo-700 dark:text-indigo-400'
+                iconColor = 'text-indigo-550 dark:text-indigo-400'
+              }
+
+              return (
+                <div key={notif.id} className={`border rounded-2xl p-4 flex gap-3 items-start transition-all ${borderClass}`}>
+                  <div className="shrink-0 mt-0.5">
+                    {notif.type === 'alert' && <AlertTriangle className={`w-4.5 h-4.5 ${iconColor}`} />}
+                    {notif.type === 'warning' && <AlertTriangle className={`w-4.5 h-4.5 ${iconColor}`} />}
+                    {notif.type === 'info' && <PiggyBank className={`w-4.5 h-4.5 ${iconColor}`} />}
+                    {notif.type === 'report' && <BarChart3 className={`w-4.5 h-4.5 ${iconColor}`} />}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-xs uppercase tracking-wide opacity-90">{notif.title}</h4>
+                    <p className="text-xs mt-1 leading-relaxed opacity-85 font-medium">{notif.message}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Budget warnings */}
       {isBudgetWarning && (
