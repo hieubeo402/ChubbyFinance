@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { formatCurrency, formatDate } from '@/lib/utils'
+import NotificationBell from '@/components/notification-bell'
 import { 
   ArrowUpRight, 
   ArrowDownRight, 
@@ -147,12 +148,17 @@ export default async function DashboardPage() {
     })
   }
 
-  // 2. Daily transaction input reminder
+  // 2. Daily transaction input reminder (Active after 8:00 PM Vietnam Time)
   const todayStr = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0')
   const todayTransactions = allTransactions
     ? allTransactions.filter(t => t.date === todayStr)
     : []
-  if (todayTransactions.length === 0) {
+  
+  // Calculate hour in Vietnam Time (GMT+7)
+  const vnTime = new Date(new Date().getTime() + 7 * 60 * 60 * 1000)
+  const vnHour = vnTime.getUTCHours()
+
+  if (todayTransactions.length === 0 && vnHour >= 20) {
     notifications.push({
       id: 'daily-reminder',
       type: 'info',
@@ -182,63 +188,17 @@ export default async function DashboardPage() {
           </h1>
           <p className="text-slate-550 dark:text-slate-400 text-sm mt-1">Hôm nay là ngày {formatDate(now)}</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
+          <NotificationBell notifications={notifications} />
           <Link
             href="/dashboard/transactions"
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md shadow-indigo-600/10 cursor-pointer active:scale-[0.96]"
+            className="flex items-center gap-2 btn-pink-glass px-4 py-2.5 rounded-xl text-sm font-semibold transition-all active:scale-[0.96] cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             Thêm giao dịch
           </Link>
         </div>
       </div>
-
-      {/* Reminders/Notifications Center */}
-      {notifications.length > 0 && (
-        <div className="glass-card rounded-3xl p-5 md:p-6 space-y-4 shadow-sm dark:shadow-none animate-scale-in">
-          <h3 className="text-sm font-extrabold text-slate-800 dark:text-white flex items-center gap-2">
-            <span className="relative flex h-2 w-2 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
-            </span>
-            <Bell className="w-4 h-4 text-[#ec4899]" />
-            <span>Trung tâm nhắc nhở tài chính</span>
-          </h3>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {notifications.map((notif) => {
-              // Color styles
-              let borderClass = 'border-rose-500/20 bg-rose-500/[0.02] text-rose-700 dark:text-rose-400'
-              let iconColor = 'text-rose-500'
-              if (notif.color === 'amber') {
-                borderClass = 'border-amber-500/20 bg-amber-500/[0.02] text-amber-700 dark:text-amber-400'
-                iconColor = 'text-amber-500'
-              } else if (notif.color === 'pink') {
-                borderClass = 'border-pink-500/20 bg-pink-500/[0.02] text-pink-700 dark:text-pink-400'
-                iconColor = 'text-pink-500'
-              } else if (notif.color === 'indigo') {
-                borderClass = 'border-indigo-500/20 bg-indigo-500/[0.02] text-indigo-700 dark:text-indigo-400'
-                iconColor = 'text-indigo-550 dark:text-indigo-400'
-              }
-
-              return (
-                <div key={notif.id} className={`border rounded-2xl p-4 flex gap-3 items-start transition-all ${borderClass}`}>
-                  <div className="shrink-0 mt-0.5">
-                    {notif.type === 'alert' && <AlertTriangle className={`w-4.5 h-4.5 ${iconColor}`} />}
-                    {notif.type === 'warning' && <AlertTriangle className={`w-4.5 h-4.5 ${iconColor}`} />}
-                    {notif.type === 'info' && <PiggyBank className={`w-4.5 h-4.5 ${iconColor}`} />}
-                    {notif.type === 'report' && <BarChart3 className={`w-4.5 h-4.5 ${iconColor}`} />}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-xs uppercase tracking-wide opacity-90">{notif.title}</h4>
-                    <p className="text-xs mt-1 leading-relaxed opacity-85 font-medium">{notif.message}</p>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
 
       {/* Budget warnings */}
       {isBudgetWarning && (
