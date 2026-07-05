@@ -115,6 +115,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
   )
 
   return (
+    <>
     <div className="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6 animate-page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
@@ -325,8 +326,9 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
           </>
         )}
       </div>
+      </div>
 
-      {/* Add Transaction Modal */}
+      {/* Add Transaction Modal — OUTSIDE animate-page to escape its stacking context */}
       {showAddModal && (
         <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/60" onClick={() => setShowAddModal(false)} />
@@ -475,6 +477,6 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
