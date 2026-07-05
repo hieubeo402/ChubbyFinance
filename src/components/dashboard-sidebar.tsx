@@ -184,8 +184,8 @@ export default function DashboardSidebar({ username }: { username: string }) {
 
       {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet) */}
       <nav
-        className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-900/80 z-40 flex items-end justify-around px-2 select-none transition-colors duration-300 shadow-lg"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom, 8px)' }}
+        className="md:hidden fixed bottom-0 left-0 right-0 bg-white/40 dark:bg-black/30 backdrop-blur-2xl border-t border-white/30 dark:border-zinc-900/60 z-40 flex items-center justify-around px-2 py-1 select-none transition-colors duration-300 shadow-2xl"
+        style={{ paddingBottom: 'max(8px, env(safe-area-inset-bottom, 8px))' }}
       >
         {menuItems.map((item) => {
           const Icon = item.icon
@@ -194,10 +194,10 @@ export default function DashboardSidebar({ username }: { username: string }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 py-2 text-[10px] font-medium transition-all ${
+              className={`flex flex-col items-center justify-center flex-1 py-1.5 my-1 mx-0.5 text-[10px] font-medium transition-all rounded-2xl border ${
                 isActive
-                  ? 'text-indigo-600 dark:text-indigo-400 font-bold scale-105 animate-active-tab'
-                  : 'text-slate-500 dark:text-slate-400'
+                  ? 'text-[#ec4899] bg-white/50 dark:bg-white/5 border-white/60 dark:border-white/10 shadow-sm scale-105 font-bold animate-active-tab'
+                  : 'text-slate-500 dark:text-slate-400 border-transparent'
               }`}
             >
               <Icon className="w-5 h-5 mb-0.5" />
@@ -206,14 +206,14 @@ export default function DashboardSidebar({ username }: { username: string }) {
           )
         })}
 
-          {/* Mobile Profile Trigger (Instead of profile page) */}
-          <button
-            onClick={() => setShowProfileModal(true)}
-            className="flex flex-col items-center justify-center flex-1 py-2 text-[10px] font-medium text-slate-500 dark:text-slate-400 cursor-pointer"
-          >
-            <User className="w-5 h-5 mb-0.5" />
-            <span>Tài khoản</span>
-          </button>
+        {/* Mobile Profile Trigger (Instead of profile page) */}
+        <button
+          onClick={() => setShowProfileModal(true)}
+          className="flex flex-col items-center justify-center flex-1 py-1.5 my-1 mx-0.5 text-[10px] font-medium text-slate-500 dark:text-slate-400 border border-transparent cursor-pointer"
+        >
+          <User className="w-5 h-5 mb-0.5" />
+          <span>Tài khoản</span>
+        </button>
       </nav>
 
       {/* Profile & Change Password Modal */}
