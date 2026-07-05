@@ -330,146 +330,139 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl p-4 sm:p-6 w-full sm:max-w-lg relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-slate-800 dark:text-white">Thêm giao dịch mới</h3>
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl w-full sm:max-w-lg relative z-10 shadow-2xl text-left flex flex-col max-h-[88vh]">
+            
+            {/* Header — fixed, không scroll */}
+            <div className="flex justify-between items-center px-4 sm:px-6 pt-5 pb-3 border-b border-zinc-100 dark:border-zinc-800 shrink-0">
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white">Thêm giao dịch mới</h3>
               <button 
                 onClick={() => setShowAddModal(false)} 
-                className="text-slate-400 hover:text-slate-650 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
+                className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form action={formAction} className="space-y-3">
-              {state?.error && (
-                <div className="bg-red-500/10 border border-red-500/30 text-red-650 dark:text-red-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2.5">
-                  <Info className="w-4 h-4 shrink-0" />
-                  <span>{state.error}</span>
+            {/* Scrollable form body */}
+            <form action={formAction} className="flex flex-col flex-1 overflow-hidden">
+              <div className="overflow-y-auto flex-1 px-4 sm:px-6 py-4 space-y-3">
+                {state?.error && (
+                  <div className="bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs px-3 py-2.5 rounded-xl flex items-center gap-2">
+                    <Info className="w-4 h-4 shrink-0" />
+                    <span>{state.error}</span>
+                  </div>
+                )}
+
+                {/* Type toggle */}
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFormType('expense')}
+                    className={`py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                      formType === 'expense'
+                        ? 'bg-rose-50 border-rose-300 text-rose-600'
+                        : 'bg-zinc-50 border-zinc-200 text-slate-500'
+                    }`}
+                  >
+                    <TrendingDown className="w-4 h-4" />
+                    Chi tiêu
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFormType('income')}
+                    className={`py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
+                      formType === 'income'
+                        ? 'bg-emerald-50 border-emerald-300 text-emerald-600'
+                        : 'bg-zinc-50 border-zinc-200 text-slate-500'
+                    }`}
+                  >
+                    <TrendingUp className="w-4 h-4" />
+                    Thu nhập
+                  </button>
                 </div>
-              )}
+                <input type="hidden" name="type" value={formType} />
 
-              {/* Transaction Type selection */}
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setFormType('expense')}
-                  className={`py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
-                    formType === 'expense'
-                      ? 'bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-450 font-bold'
-                      : 'bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/50 dark:border-zinc-800/80 text-slate-500 dark:text-slate-400'
-                  }`}
-                >
-                  <TrendingDown className="w-4 h-4" />
-                  Chi tiêu (Expense)
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFormType('income')}
-                  className={`py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
-                    formType === 'income'
-                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-bold'
-                      : 'bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/50 dark:border-zinc-800/80 text-slate-500 dark:text-slate-400'
-                  }`}
-                >
-                  <TrendingUp className="w-4 h-4" />
-                  Thu nhập (Income)
-                </button>
-              </div>
-              <input type="hidden" name="type" value={formType} />
+                {/* Amount + Date — luôn 2 cột */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400" htmlFor="amount-display">
+                      Số tiền (VND) <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      id="amount-display"
+                      type="text"
+                      value={amountInput}
+                      onChange={handleAmountChange}
+                      placeholder="100,000"
+                      required
+                      className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors"
+                    />
+                    <input type="hidden" name="amount" value={rawAmount} />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-600 dark:text-slate-400" htmlFor="date">
+                      Ngày giao dịch <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      id="date"
+                      name="date"
+                      type="date"
+                      required
+                      defaultValue={new Date().toISOString().split('T')[0]}
+                      className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                    />
+                  </div>
+                </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                {/* Amount */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-550 dark:text-slate-400" htmlFor="amount-display">
-                    Số tiền (VND) <span className="text-rose-500">*</span>
+                {/* Category */}
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400" htmlFor="category">
+                    Danh mục <span className="text-rose-500">*</span>
                   </label>
-                  <input
-                    id="amount-display"
-                    type="text"
-                    value={amountInput}
-                    onChange={handleAmountChange}
-                    placeholder="Ví dụ: 100,000"
-                    required
-                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
-                  />
-                  <input type="hidden" name="amount" value={rawAmount} />
+                  <select
+                    id="category"
+                    name="category"
+                    value={formCategory}
+                    onChange={(e) => setFormCategory(e.target.value)}
+                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
+                  >
+                    {formType === 'expense'
+                      ? EXPENSE_CATEGORIES.map((cat) => <option key={cat} value={cat}>{cat}</option>)
+                      : INCOME_CATEGORIES.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
+                  </select>
                 </div>
 
-                {/* Date */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="date">
-                    Ngày giao dịch <span className="text-rose-500">*</span>
+                {/* Description */}
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400" htmlFor="description">
+                    Ghi chú (Không bắt buộc)
                   </label>
-                  <input
-                    id="date"
-                    name="date"
-                    type="date"
-                    required
-                    defaultValue={new Date().toISOString().split('T')[0]}
-                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                  <textarea
+                    id="description"
+                    name="description"
+                    rows={2}
+                    placeholder="Ví dụ: Ăn trưa với đồng nghiệp..."
+                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
                   />
                 </div>
               </div>
 
-              {/* Category */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="category">
-                  Danh mục <span className="text-rose-500">*</span>
-                </label>
-                <select
-                  id="category"
-                  name="category"
-                  value={formCategory}
-                  onChange={(e) => setFormCategory(e.target.value)}
-                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
-                >
-                  {formType === 'expense'
-                    ? EXPENSE_CATEGORIES.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
-                      ))
-                    : INCOME_CATEGORIES.map((cat) => (
-                        <option key={cat} value={cat}>
-                          {cat}
-                        </option>
-                      ))}
-                </select>
-              </div>
-
-              {/* Description */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-500 dark:text-slate-400" htmlFor="description">
-                  Ghi chú chi tiết (Không bắt buộc)
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  rows={2}
-                  placeholder="Ví dụ: Ăn trưa với đồng nghiệp, Nhận lương tháng 7"
-                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-2">
+              {/* Buttons — sticky ở đáy, KHÔNG bị scroll che */}
+              <div className="flex gap-3 px-4 sm:px-6 py-4 border-t border-zinc-100 dark:border-zinc-800 shrink-0">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 btn-glass font-semibold py-2.5 rounded-xl text-sm cursor-pointer"
+                  className="flex-1 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-slate-200 font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-pointer"
                 >
                   Hủy bỏ
                 </button>
                 <button
                   type="submit"
                   disabled={isPendingAdd}
-                  className="flex-1 bg-indigo-650 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl text-sm shadow-md shadow-indigo-600/10 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.96]"
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.97]"
                 >
                   {isPendingAdd ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Đang lưu...
-                    </>
+                    <><Loader2 className="w-4 h-4 animate-spin" />Đang lưu...</>
                   ) : (
                     'Lưu giao dịch'
                   )}
