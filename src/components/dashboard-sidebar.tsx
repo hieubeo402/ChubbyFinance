@@ -113,11 +113,11 @@ export default function DashboardSidebar({ username }: { username: string }) {
           {/* Brand & Theme toggle */}
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-gradient-to-tr from-indigo-500 to-emerald-500 rounded-lg flex items-center justify-center shadow-md shadow-indigo-500/10">
-                <Wallet className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 bg-gradient-to-tr from-indigo-500 to-rose-400 rounded-lg flex items-center justify-center shadow-md shadow-indigo-500/15">
+                <PiggyBank className="w-4.5 h-4.5 text-white" />
               </div>
-              <span className="text-lg font-bold tracking-tight text-slate-800 dark:text-white">
-                ChubbyFinance
+              <span className="text-lg font-bold tracking-tight text-slate-800 dark:text-white flex items-center gap-0.5">
+                ChubbyFinance 🐷
               </span>
             </div>
 

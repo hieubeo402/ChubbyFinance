@@ -76,6 +76,21 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+
+  /* Map all indigo colors globally to cute pink/rose shades */
+  --color-indigo-50: #fdf2f8; /* pink-50 */
+  --color-indigo-100: #fce7f3; /* pink-100 */
+  --color-indigo-200: #fbcfe8; /* pink-200 */
+  --color-indigo-300: #f9a8d4; /* pink-300 */
+  --color-indigo-400: #f472b6; /* pink-400 */
+  --color-indigo-500: #ec4899; /* pink-500 */
+  --color-indigo-550: #db2777; /* pink-600 */
+  --color-indigo-600: #db2777; /* pink-600 */
+  --color-indigo-650: #be185d; /* pink-700 */
+  --color-indigo-700: #be185d; /* pink-700 */
+  --color-indigo-800: #9d174d; /* pink-800 */
+  --color-indigo-900: #831843; /* pink-900 */
+  --color-indigo-950: #500724; /* pink-950 */
 }
 
 * {
@@ -90,7 +105,7 @@ body {
 
 /* Premium text gradient styling */
 .text-gradient {
-  background: linear-gradient(135deg, #6366f1 10%, #a855f7 50%, #ec4899 90%);
+  background: linear-gradient(135deg, #ec4899 10%, #f43f5e 50%, #fda4af 90%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

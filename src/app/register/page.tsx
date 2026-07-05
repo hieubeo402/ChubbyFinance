@@ -1,10 +1,8 @@
-'use client'
-
 import React, { useActionState, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { signUpAction } from '../auth-actions'
-import { Wallet, KeyRound, User, Loader2, Info, CheckCircle2, Eye, EyeOff } from 'lucide-react'
+import { PiggyBank, KeyRound, User, Loader2, Info, CheckCircle2, Eye, EyeOff } from 'lucide-react'
 
 export default function RegisterPage() {
   const [state, formAction, isPending] = useActionState(signUpAction, null)
@@ -23,26 +21,26 @@ export default function RegisterPage() {
   }, [state, router])
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#F9FAFB] p-4 relative overflow-hidden selection:bg-[#5D3FD3]/10 selection:text-[#5D3FD3]">
+    <main className="min-h-screen flex items-center justify-center bg-[#FFF5F7] p-4 relative overflow-hidden selection:bg-[#ec4899]/10 selection:text-[#ec4899]">
       {/* Decorative blurred circles for rich aesthetic */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#5D3FD3]/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#36D7B7]/3 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#ec4899]/8 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#f43f5e]/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="w-full max-w-sm z-10">
         {/* Logo and Brand Name */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 bg-[#5D3FD3] rounded-2xl flex items-center justify-center shadow-lg shadow-[#5D3FD3]/10 mb-3 hover:scale-105 transition-transform duration-300">
-            <Wallet className="w-8 h-8 text-white" />
+        <div className="flex flex-col items-center mb-8 animate-fade-in">
+          <div className="w-16 h-16 bg-[#ec4899] rounded-2xl flex items-center justify-center shadow-lg shadow-[#ec4899]/20 mb-3 hover:scale-110 hover:rotate-6 transition-transform duration-300">
+            <PiggyBank className="w-9 h-9 text-white" />
           </div>
-          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            ChubbyFinance
+          <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-1">
+            ChubbyFinance <span className="animate-bounce">🐷</span>
           </h1>
-          <p className="text-sm text-slate-600 font-semibold mt-2">Quản lý tài chính cá nhân thông minh & tối giản</p>
+          <p className="text-xs text-rose-500 font-bold tracking-wide uppercase mt-2">Nuôi heo đất & Quản lý chi tiêu cute</p>
         </div>
 
         {/* Card container */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-8 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-[3px] bg-[#5D3FD3]" />
+        <div className="bg-white border border-rose-100 rounded-3xl p-8 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-[4px] bg-[#ec4899]" />
           
           <h2 className="text-xl font-extrabold text-slate-900 mb-6">Đăng ký tài khoản mới</h2>
 
@@ -55,7 +53,7 @@ export default function RegisterPage() {
               </p>
               <Link 
                 href="/login" 
-                className="text-xs text-[#5D3FD3] hover:text-[#4A2EBF] underline font-extrabold"
+                className="text-xs text-[#ec4899] hover:text-[#be185d] underline font-extrabold"
               >
                 Nhấp vào đây nếu không tự động chuyển hướng
               </Link>
@@ -63,7 +61,7 @@ export default function RegisterPage() {
           ) : (
             <form action={formAction} className="space-y-5">
               {state?.error && (
-                <div className="bg-rose-500/10 border border-rose-500/30 text-rose-600 text-xs px-4 py-3 rounded-xl flex items-center gap-2.5 animate-shake font-bold">
+                <div className="bg-rose-50 border border-rose-200 text-rose-600 text-xs px-4 py-3 rounded-xl flex items-center gap-2.5 animate-shake font-bold">
                   <Info className="w-4 h-4 shrink-0" />
                   <span>{state.error}</span>
                 </div>
@@ -74,14 +72,14 @@ export default function RegisterPage() {
                   Tên tài khoản (Username)
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-[#5D3FD3]" />
+                  <User className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-[#ec4899]" />
                   <input
                     id="username"
                     name="username"
                     type="text"
                     placeholder="Nhập tên tài khoản (ví dụ: hieubong)"
                     required
-                    className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
+                    className="w-full bg-white border border-[#F3F4F6] rounded-xl py-3 pl-11 pr-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#ec4899] focus:ring-2 focus:ring-[#ec4899]/10 transition-all font-semibold"
                   />
                 </div>
               </div>
@@ -91,19 +89,19 @@ export default function RegisterPage() {
                   Mật khẩu
                 </label>
                 <div className="relative">
-                  <KeyRound className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-[#5D3FD3]" />
+                  <KeyRound className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-[#ec4899]" />
                   <input
                     id="password"
                     name="password"
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Tối thiểu 6 ký tự"
                     required
-                    className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-11 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
+                    className="w-full bg-white border border-[#F3F4F6] rounded-xl py-3 pl-11 pr-11 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#ec4899] focus:ring-2 focus:ring-[#ec4899]/10 transition-all font-semibold"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-[#5D3FD3] transition-colors cursor-pointer"
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-[#ec4899] transition-colors cursor-pointer"
                   >
                     {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                   </button>
@@ -115,19 +113,19 @@ export default function RegisterPage() {
                   Nhập lại mật khẩu
                 </label>
                 <div className="relative">
-                  <KeyRound className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-[#5D3FD3]" />
+                  <KeyRound className="absolute left-3.5 top-3.5 w-4.5 h-4.5 text-[#ec4899]" />
                   <input
                     id="confirmPassword"
                     name="confirmPassword"
                     type={showConfirmPassword ? 'text' : 'password'}
                     placeholder="Xác nhận lại mật khẩu"
                     required
-                    className="w-full bg-white border border-[#E5E7EB] rounded-xl py-3 pl-11 pr-11 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#5D3FD3] focus:ring-2 focus:ring-[#5D3FD3]/10 transition-all font-semibold"
+                    className="w-full bg-white border border-[#F3F4F6] rounded-xl py-3 pl-11 pr-11 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#ec4899] focus:ring-2 focus:ring-[#ec4899]/10 transition-all font-semibold"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-[#5D3FD3] transition-colors cursor-pointer"
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-[#ec4899] transition-colors cursor-pointer"
                   >
                     {showConfirmPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                   </button>
@@ -137,7 +135,7 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full bg-[#5D3FD3] hover:bg-[#4A2EBF] text-white font-extrabold py-3 px-4 rounded-xl shadow-md shadow-[#5D3FD3]/10 active:scale-[0.96] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                className="w-full bg-[#ec4899] hover:bg-[#be185d] text-white font-extrabold py-3 px-4 rounded-xl shadow-md shadow-[#ec4899]/10 active:scale-[0.96] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
                 {isPending ? (
                   <>
@@ -156,7 +154,7 @@ export default function RegisterPage() {
               <span className="text-xs text-slate-550 font-medium">Đã có tài khoản? </span>
               <Link
                 href="/login"
-                className="text-xs text-[#5D3FD3] hover:text-[#4A2EBF] font-extrabold transition-colors"
+                className="text-xs text-[#ec4899] hover:text-[#be185d] font-extrabold transition-colors"
               >
                 Đăng nhập ngay
               </Link>
