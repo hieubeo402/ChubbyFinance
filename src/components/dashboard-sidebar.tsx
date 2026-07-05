@@ -21,7 +21,8 @@ import {
   CheckCircle2,
   Settings,
   Eye,
-  EyeOff
+  EyeOff,
+  Download
 } from 'lucide-react'
 
 export default function DashboardSidebar({ username }: { username: string }) {
@@ -33,6 +34,39 @@ export default function DashboardSidebar({ username }: { username: string }) {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false)
+
+  // PWA Installation States
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [isIOS, setIsIOS] = useState(false)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleBeforeInstallPrompt = (e: Event) => {
+        e.preventDefault()
+        setDeferredPrompt(e)
+      }
+
+      window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+
+      // Detect iOS
+      const userAgent = window.navigator.userAgent.toLowerCase()
+      const isIphoneOrIpad = /iphone|ipad|ipod/.test(userAgent)
+      setIsIOS(isIphoneOrIpad)
+
+      return () => {
+        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+      }
+    }
+  }, [])
+
+  const handleInstallApp = async () => {
+    if (!deferredPrompt) return
+    deferredPrompt.prompt()
+    const { outcome } = await deferredPrompt.userChoice
+    if (outcome === 'accepted') {
+      setDeferredPrompt(null)
+    }
+  }
 
   // Reset password visibilities when modal is closed
   useEffect(() => {
@@ -388,6 +422,44 @@ export default function DashboardSidebar({ username }: { username: string }) {
                 </div>
               </form>
             )}
+
+            {/* Install App Section (PWA) */}
+            <div className="mt-5 pt-4 border-t border-zinc-200/50 dark:border-zinc-800/60">
+              {deferredPrompt ? (
+                <div className="space-y-2">
+                  <span className="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold">Cài đặt ứng dụng</span>
+                  <button
+                    type="button"
+                    onClick={handleInstallApp}
+                    className="w-full flex items-center justify-center gap-1.5 btn-glass text-xs font-semibold py-2 px-3 rounded-xl cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-all text-[#ec4899]"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    Tải icon ra màn hình chính
+                  </button>
+                </div>
+              ) : isIOS ? (
+                <div className="space-y-1.5">
+                  <span className="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold">Cài đặt (iPhone/iPad)</span>
+                  <div className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed bg-zinc-50 dark:bg-zinc-900/40 p-3 rounded-xl border border-zinc-100 dark:border-zinc-800/40 space-y-1">
+                    <p className="font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                      <Download className="w-3.5 h-3.5 text-[#ec4899] shrink-0" />
+                      Để thêm ứng dụng ra màn hình chính:
+                    </p>
+                    <ol className="list-decimal list-inside space-y-0.5 text-slate-550 dark:text-slate-450">
+                      <li>Nhấn nút <span className="font-bold">Chia sẻ</span> (Share 📤) trong Safari.</li>
+                      <li>Chọn <span className="font-bold">"Thêm vào MH chính"</span> (Add to Home Screen ➕).</li>
+                    </ol>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <span className="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold">Ứng dụng Heo Đất</span>
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400 bg-zinc-50 dark:bg-zinc-900/30 p-2.5 rounded-xl border border-zinc-150 dark:border-zinc-800/30 text-center font-medium">
+                    Để cài đặt ra màn hình chính, mở menu trình duyệt (icon 3 chấm) và chọn <span className="font-bold">"Thêm vào màn hình chính"</span>.
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
