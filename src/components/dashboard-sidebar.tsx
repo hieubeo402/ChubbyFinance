@@ -184,7 +184,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
 
       {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet as a floating liquid glass pill island) */}
       <nav
-        className="md:hidden fixed bottom-6 left-4 right-4 bg-white/70 dark:bg-zinc-950/40 backdrop-blur-2xl border border-white/50 dark:border-zinc-850/80 z-40 flex items-center justify-around px-2 py-1.5 rounded-full select-none transition-all duration-300 shadow-xl shadow-rose-950/5 max-w-md mx-auto"
+        className="md:hidden fixed bottom-6 left-4 right-4 liquid-glass-nav z-40 flex items-center justify-around px-2 py-1.5 rounded-full select-none transition-all duration-300 max-w-md mx-auto"
       >
         {menuItems.map((item) => {
           const Icon = item.icon
@@ -193,10 +193,10 @@ export default function DashboardSidebar({ username }: { username: string }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 py-1.5 text-[9px] font-medium transition-all rounded-full border ${
+              className={`flex flex-col items-center justify-center flex-1 py-1.5 text-[9px] font-medium transition-all rounded-full border border-transparent ${
                 isActive
-                  ? 'text-[#ec4899] bg-white dark:bg-white/10 border-white/80 dark:border-white/20 shadow-md shadow-pink-500/5 font-extrabold scale-[1.02] duration-300'
-                  : 'text-slate-500 dark:text-slate-400 border-transparent'
+                  ? 'text-[#ec4899] liquid-glass-active-pill font-extrabold scale-[1.02] duration-300'
+                  : 'text-slate-500 dark:text-slate-400'
               }`}
             >
               <Icon className="w-4.5 h-4.5 mb-0.5" />
