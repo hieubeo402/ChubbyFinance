@@ -13,7 +13,9 @@ import {
   TrendingDown, 
   Info,
   Calendar,
-  Loader2
+  Loader2,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react'
 
 const EXPENSE_CATEGORIES = ['Ăn uống', 'Di chuyển', 'Mua sắm', 'Giải trí', 'Hóa đơn', 'Y tế', 'Khác']
@@ -51,9 +53,9 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
   // Filter states
   const [filterType, setFilterType] = useState('all')
   const [filterCategory, setFilterCategory] = useState('all')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+  const [dateRange, setDateRange] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
+  const [isFiltersCollapsed, setIsFiltersCollapsed] = useState(true)
 
   // Add transaction action state
   const [state, formAction, isPendingAdd] = useActionState(addTransactionAction, null)
@@ -92,10 +94,33 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       (t.description && t.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (t.category && t.category.toLowerCase().includes(searchTerm.toLowerCase()))
     
-    const matchesStartDate = !startDate || t.date >= startDate
-    const matchesEndDate = !endDate || t.date <= endDate
+    let matchesDate = true
+    if (dateRange !== 'all') {
+      const [y, m, d] = t.date.split('-').map(Number)
+      const txTime = new Date(y, m - 1, d).getTime()
+      
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const todayTime = today.getTime()
 
-    return matchesType && matchesCategory && matchesSearch && matchesStartDate && matchesEndDate
+      if (dateRange === 'today') {
+        matchesDate = txTime === todayTime
+      } else if (dateRange === 'yesterday') {
+        const yesterdayTime = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1).getTime()
+        matchesDate = txTime === yesterdayTime
+      } else if (dateRange === 'week') {
+        const currentDay = today.getDay()
+        const distanceToMonday = currentDay === 0 ? 6 : currentDay - 1
+        const mondayTime = new Date(today.getFullYear(), today.getMonth(), today.getDate() - distanceToMonday).getTime()
+        matchesDate = txTime >= mondayTime && txTime <= todayTime
+      } else if (dateRange === 'month') {
+        matchesDate = y === today.getFullYear() && (m - 1) === today.getMonth()
+      } else if (dateRange === 'year') {
+        matchesDate = y === today.getFullYear()
+      }
+    }
+
+    return matchesType && matchesCategory && matchesSearch && matchesDate
   })
 
   const handleDelete = (id: string) => {
@@ -135,92 +160,99 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       </div>
 
       {/* Filters Card */}
-      <div className="glass-card rounded-3xl p-6 space-y-4 shadow-sm dark:shadow-none">
-        <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-semibold text-sm">
-          <SlidersHorizontal className="w-4 h-4" />
-          <span>Bộ lọc tìm kiếm</span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {/* Search bar */}
-          <div className="relative lg:col-span-2">
-            <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 dark:text-slate-500" />
-            <input
-              type="text"
-              placeholder="Tìm theo ghi chú hoặc danh mục..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 pl-11 pr-4 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
-            />
-          </div>
-
-          {/* Type filter */}
-          <div>
-            <select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
-              className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
-            >
-              <option value="all">Tất cả các loại</option>
-              <option value="income">Thu nhập (Income)</option>
-              <option value="expense">Chi tiêu (Expense)</option>
-            </select>
-          </div>
-
-          {/* Category filter */}
-          <div>
-            <select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
-            >
-              <option value="all">Tất cả danh mục</option>
-              {allCategories.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Start Date */}
-          <div>
-            <input
-              type="date"
-              value={startDate}
-              placeholder="Từ ngày"
-              onChange={(e) => setStartDate(e.target.value)}
-              className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
-            />
-          </div>
-        </div>
-
-        {/* Date end and Clear buttons */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-zinc-200/50 dark:border-zinc-800/40">
+      <div className="glass-card rounded-3xl p-5 space-y-4 shadow-sm dark:shadow-none transition-all duration-300">
+        <button
+          onClick={() => setIsFiltersCollapsed(!isFiltersCollapsed)}
+          className="w-full flex items-center justify-between text-slate-700 dark:text-slate-300 font-bold text-sm cursor-pointer select-none focus:outline-none"
+        >
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-500">Đến ngày:</span>
-            <input
-              type="date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              className="bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-1.5 px-3 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
-            />
+            <SlidersHorizontal className="w-4 h-4 text-[#ec4899]" />
+            <span>Bộ lọc tìm kiếm</span>
           </div>
-
-          {(filterType !== 'all' || filterCategory !== 'all' || startDate || endDate || searchTerm) && (
-            <button
-              onClick={() => {
-                setFilterType('all')
-                setFilterCategory('all')
-                setStartDate('')
-                setEndDate('')
-                setSearchTerm('')
-              }}
-              className="text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-bold flex items-center gap-1.5 cursor-pointer"
-            >
-              <X className="w-3.5 h-3.5" />
-              Xóa tất cả bộ lọc
-            </button>
+          {isFiltersCollapsed ? (
+            <ChevronDown className="w-4 h-4 text-slate-400" />
+          ) : (
+            <ChevronUp className="w-4 h-4 text-[#ec4899]" />
           )}
-        </div>
+        </button>
+
+        {!isFiltersCollapsed && (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+              {/* Search bar */}
+              <div className="relative lg:col-span-2">
+                <Search className="absolute left-3.5 top-3.5 w-4 h-4 text-slate-400 dark:text-slate-500" />
+                <input
+                  type="text"
+                  placeholder="Tìm theo ghi chú hoặc danh mục..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 pl-11 pr-4 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors"
+                />
+              </div>
+
+              {/* Type filter */}
+              <div>
+                <select
+                  value={filterType}
+                  onChange={(e) => setFilterType(e.target.value)}
+                  className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
+                >
+                  <option value="all">Tất cả các loại</option>
+                  <option value="income">Thu nhập (Income)</option>
+                  <option value="expense">Chi tiêu (Expense)</option>
+                </select>
+              </div>
+
+              {/* Date range filter */}
+              <div>
+                <select
+                  value={dateRange}
+                  onChange={(e) => setDateRange(e.target.value)}
+                  className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
+                >
+                  <option value="all">Tất cả thời gian</option>
+                  <option value="today">Hôm nay</option>
+                  <option value="yesterday">Hôm qua</option>
+                  <option value="week">Tuần này</option>
+                  <option value="month">Tháng này</option>
+                  <option value="year">Năm này</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Clear filters & category */}
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-zinc-200/50 dark:border-zinc-800/40">
+              <div className="w-full sm:w-72">
+                <select
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
+                  className="w-full bg-zinc-100/40 dark:bg-zinc-950/40 border border-zinc-200/50 dark:border-zinc-800/80 rounded-xl py-2 px-3 text-xs text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
+                >
+                  <option value="all">Tất cả danh mục</option>
+                  {allCategories.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
+
+              {(filterType !== 'all' || filterCategory !== 'all' || dateRange !== 'all' || searchTerm) && (
+                <button
+                  onClick={() => {
+                    setFilterType('all')
+                    setFilterCategory('all')
+                    setDateRange('all')
+                    setSearchTerm('')
+                  }}
+                  className="text-xs text-[#ec4899] hover:underline font-bold flex items-center gap-1.5 cursor-pointer"
+                >
+                  <X className="w-3.5 h-3.5" />
+                  Xóa tất cả bộ lọc
+                </button>
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Transactions List */}
