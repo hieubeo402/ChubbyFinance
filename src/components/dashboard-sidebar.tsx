@@ -104,6 +104,13 @@ export default function DashboardSidebar({ username }: { username: string }) {
     },
   ]
 
+  const activeIndex = menuItems.findIndex((item) => {
+    if (item.href === '/dashboard') {
+      return pathname === '/dashboard'
+    }
+    return pathname.startsWith(item.href)
+  })
+
   return (
     <>
       {/* 1. DESKTOP SIDEBAR (Visible on medium screens and up) */}
@@ -184,18 +191,30 @@ export default function DashboardSidebar({ username }: { username: string }) {
 
       {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet as a floating liquid glass pill island) */}
       <nav
-        className="md:hidden fixed bottom-6 left-4 right-4 liquid-glass-nav z-40 flex items-center justify-around px-2 py-1 rounded-full select-none transition-all duration-300 max-w-sm mx-auto"
+        className="md:hidden fixed bottom-8 left-4 right-4 liquid-glass-nav relative z-40 flex items-center justify-around p-1 rounded-full select-none transition-all duration-300 max-w-sm mx-auto shadow-[0_16px_40px_rgba(0,0,0,0.8),_0_0_24px_rgba(236,72,153,0.12)] border-2 border-white/60 dark:border-[#ec4899]/30"
       >
+        {/* Sliding active indicator */}
+        {activeIndex !== -1 && (
+          <div
+            className="absolute top-1 bottom-1 liquid-glass-active-pill transition-all duration-300 ease-out rounded-full pointer-events-none"
+            style={{
+              left: `calc(${activeIndex * 16.666}% + 4px)`,
+              width: `calc(16.666% - 8px)`,
+              zIndex: 0,
+            }}
+          />
+        )}
+
         {menuItems.map((item) => {
           const Icon = item.icon
-          const isActive = pathname === item.href
+          const isActive = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href))
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center justify-center py-2.5 px-3 rounded-full transition-all border border-transparent ${
+              className={`relative z-10 flex items-center justify-center flex-1 py-2.5 rounded-full transition-all ${
                 isActive
-                  ? 'text-[#ec4899] liquid-glass-active-pill font-extrabold scale-[1.05] duration-300'
+                  ? 'text-[#ec4899] font-extrabold scale-[1.05]'
                   : 'text-slate-500 dark:text-slate-400 hover:text-[#ec4899]/70'
               }`}
             >
@@ -207,7 +226,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
         {/* Mobile Profile Trigger */}
         <button
           onClick={() => setShowProfileModal(true)}
-          className="flex items-center justify-center py-2.5 px-3 text-slate-500 dark:text-slate-400 border border-transparent rounded-full cursor-pointer hover:text-[#ec4899]/70 transition-all"
+          className="relative z-10 flex items-center justify-center flex-1 py-2.5 text-slate-500 dark:text-slate-400 rounded-full cursor-pointer hover:text-[#ec4899]/70 transition-all"
         >
           <User className="w-5.5 h-5.5" />
         </button>
