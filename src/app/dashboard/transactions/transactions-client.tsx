@@ -328,8 +328,8 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
 
       {/* Add Transaction Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setShowAddModal(false)} />
           <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl w-full sm:max-w-lg relative z-10 shadow-2xl text-left flex flex-col max-h-[88vh]">
             
             {/* Header — fixed, không scroll */}

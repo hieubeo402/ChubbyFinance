@@ -473,8 +473,8 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
       {/* Add Debt/Loan Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setShowAddModal(false)} />
           <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-md relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-slate-800 dark:text-white">Tạo khoản nợ / cho vay mới</h3>
@@ -574,8 +574,8 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
       {/* Pay/Recover Payment Modal */}
       {showPayModal && selectedItem && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-          <div className="absolute inset-0 bg-black/50" onClick={() => {
+        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center">
+          <div className="absolute inset-0 bg-black/60" onClick={() => {
             setShowPayModal(false)
             setSelectedItem(null)
           }} />
