@@ -191,7 +191,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
 
       {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet as a floating liquid glass pill island) */}
       <nav
-        className="md:hidden fixed bottom-8 left-4 right-4 liquid-glass-nav relative z-40 flex items-center justify-around p-1 rounded-full select-none transition-all duration-300 max-w-sm mx-auto shadow-[0_16px_40px_rgba(0,0,0,0.8),_0_0_24px_rgba(236,72,153,0.12)] border-2 border-white/60 dark:border-[#ec4899]/30"
+        className="md:hidden fixed bottom-8 left-4 right-4 liquid-glass-nav z-40 flex items-center justify-around p-1 rounded-full select-none transition-all duration-300 max-w-sm mx-auto shadow-[0_16px_40px_rgba(0,0,0,0.8),_0_0_24px_rgba(236,72,153,0.12)] border-2 border-white/60 dark:border-[#ec4899]/30"
       >
         {/* Sliding active indicator */}
         {activeIndex !== -1 && (
