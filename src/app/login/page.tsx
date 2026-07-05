@@ -95,7 +95,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full bg-[#ec4899] hover:bg-[#be185d] text-white font-extrabold py-3 px-4 rounded-xl shadow-md shadow-[#ec4899]/10 active:scale-[0.96] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+              className="w-full btn-pink-glass font-extrabold py-3 px-4 rounded-xl active:scale-[0.96] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               {isPending ? (
                 <>

@@ -127,7 +127,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-600/10 active:scale-[0.96] transition-all cursor-pointer text-sm"
+          className="flex items-center justify-center gap-2 btn-pink-glass font-semibold py-2.5 px-5 rounded-xl active:scale-[0.96] transition-all cursor-pointer text-sm"
         >
           <Plus className="w-4 h-4" />
           Thêm giao dịch mới
@@ -457,14 +457,14 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-slate-200 font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-pointer"
+                  className="flex-1 btn-glass font-semibold py-2.5 rounded-xl text-sm transition-all cursor-pointer"
                 >
                   Hủy bỏ
                 </button>
                 <button
                   type="submit"
                   disabled={isPendingAdd}
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.97]"
+                  className="flex-1 btn-pink-glass font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.97]"
                 >
                   {isPendingAdd ? (
                     <><Loader2 className="w-4 h-4 animate-spin" />Đang lưu...</>

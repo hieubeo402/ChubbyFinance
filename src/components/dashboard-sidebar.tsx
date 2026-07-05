@@ -184,7 +184,7 @@ export default function DashboardSidebar({ username }: { username: string }) {
 
       {/* 2. MOBILE BOTTOM BAR (Visible on mobile/tablet as a floating liquid glass pill island) */}
       <nav
-        className="md:hidden fixed bottom-6 left-4 right-4 liquid-glass-nav z-40 flex items-center justify-around px-2 py-1.5 rounded-full select-none transition-all duration-300 max-w-md mx-auto"
+        className="md:hidden fixed bottom-6 left-4 right-4 liquid-glass-nav z-40 flex items-center justify-around px-2 py-1 rounded-full select-none transition-all duration-300 max-w-sm mx-auto"
       >
         {menuItems.map((item) => {
           const Icon = item.icon
@@ -193,14 +193,13 @@ export default function DashboardSidebar({ username }: { username: string }) {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center flex-1 py-1.5 text-[9px] font-medium transition-all rounded-full border border-transparent ${
+              className={`flex items-center justify-center py-2.5 px-3 rounded-full transition-all border border-transparent ${
                 isActive
-                  ? 'text-[#ec4899] liquid-glass-active-pill font-extrabold scale-[1.02] duration-300'
-                  : 'text-slate-500 dark:text-slate-400'
+                  ? 'text-[#ec4899] liquid-glass-active-pill font-extrabold scale-[1.05] duration-300'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-[#ec4899]/70'
               }`}
             >
-              <Icon className="w-4.5 h-4.5 mb-0.5" />
-              <span>{item.name.replace(' & ', '&')}</span>
+              <Icon className="w-5.5 h-5.5" />
             </Link>
           )
         })}
@@ -208,10 +207,9 @@ export default function DashboardSidebar({ username }: { username: string }) {
         {/* Mobile Profile Trigger */}
         <button
           onClick={() => setShowProfileModal(true)}
-          className="flex flex-col items-center justify-center flex-1 py-1.5 text-[9px] font-medium text-slate-500 dark:text-slate-400 border border-transparent rounded-full cursor-pointer hover:text-[#ec4899]/70 transition-all"
+          className="flex items-center justify-center py-2.5 px-3 text-slate-500 dark:text-slate-400 border border-transparent rounded-full cursor-pointer hover:text-[#ec4899]/70 transition-all"
         >
-          <User className="w-4.5 h-4.5 mb-0.5" />
-          <span>Tài khoản</span>
+          <User className="w-5.5 h-5.5" />
         </button>
       </nav>
 

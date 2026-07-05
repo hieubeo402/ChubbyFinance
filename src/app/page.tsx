@@ -29,7 +29,7 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/register"
-              className="text-sm font-bold bg-[#ec4899] hover:bg-[#be185d] text-white px-4 py-2.5 rounded-xl transition-all shadow-md shadow-[#ec4899]/10 hover:shadow-[#ec4899]/20 active:scale-[0.96]"
+              className="text-sm font-extrabold btn-pink-glass px-4 py-2.5 rounded-xl active:scale-[0.96] transition-all cursor-pointer"
             >
               Đăng ký
             </Link>
@@ -58,14 +58,14 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
           <Link
             href="/register"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#ec4899] hover:bg-[#be185d] text-white font-extrabold py-4 px-8 rounded-2xl shadow-xl shadow-[#ec4899]/15 active:scale-[0.96] transition-all cursor-pointer text-sm"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 btn-pink-glass font-extrabold py-4 px-8 rounded-2xl active:scale-[0.96] transition-all cursor-pointer text-sm"
           >
             Bắt đầu trải nghiệm miễn phí
             <ArrowRightIcon className="w-5 h-5" />
           </Link>
           <Link
             href="/login"
-            className="w-full sm:w-auto border-2 border-[#ec4899] text-[#ec4899] hover:bg-[#ec4899]/5 font-extrabold py-4 px-8 rounded-2xl active:scale-[0.96] transition-all cursor-pointer flex items-center justify-center text-sm"
+            className="w-full sm:w-auto btn-glass font-extrabold py-4 px-8 rounded-2xl active:scale-[0.96] transition-all cursor-pointer flex items-center justify-center text-sm"
           >
             Đăng nhập tài khoản
           </Link>
