@@ -330,8 +330,8 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-lg relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl p-4 sm:p-6 w-full sm:max-w-lg relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
               <h3 className="text-xl font-bold text-slate-800 dark:text-white">Thêm giao dịch mới</h3>
               <button 
                 onClick={() => setShowAddModal(false)} 
@@ -341,7 +341,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
               </button>
             </div>
 
-            <form action={formAction} className="space-y-4">
+            <form action={formAction} className="space-y-3">
               {state?.error && (
                 <div className="bg-red-500/10 border border-red-500/30 text-red-650 dark:text-red-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2.5">
                   <Info className="w-4 h-4 shrink-0" />
@@ -354,7 +354,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                 <button
                   type="button"
                   onClick={() => setFormType('expense')}
-                  className={`py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 border transition-all cursor-pointer ${
+                  className={`py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
                     formType === 'expense'
                       ? 'bg-rose-500/10 border-rose-500/30 text-rose-600 dark:text-rose-450 font-bold'
                       : 'bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/50 dark:border-zinc-800/80 text-slate-500 dark:text-slate-400'
@@ -366,7 +366,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                 <button
                   type="button"
                   onClick={() => setFormType('income')}
-                  className={`py-3 rounded-xl text-sm font-semibold flex items-center justify-center gap-2 border transition-all cursor-pointer ${
+                  className={`py-2 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5 border transition-all cursor-pointer ${
                     formType === 'income'
                       ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400 font-bold'
                       : 'bg-zinc-100/40 dark:bg-zinc-950/40 border-zinc-200/50 dark:border-zinc-800/80 text-slate-500 dark:text-slate-400'
@@ -378,7 +378,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
               </div>
               <input type="hidden" name="type" value={formType} />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3">
                 {/* Amount */}
                 <div className="space-y-1.5">
                   <label className="text-xs font-semibold text-slate-550 dark:text-slate-400" htmlFor="amount-display">
@@ -446,13 +446,13 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                 <textarea
                   id="description"
                   name="description"
-                  rows={3}
+                  rows={2}
                   placeholder="Ví dụ: Ăn trưa với đồng nghiệp, Nhận lương tháng 7"
                   className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
                 />
               </div>
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
