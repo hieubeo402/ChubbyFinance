@@ -328,9 +328,9 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
 
       {/* Add Transaction Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center">
+        <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/60" onClick={() => setShowAddModal(false)} />
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl w-full sm:max-w-lg relative z-10 shadow-2xl text-left flex flex-col max-h-[88vh]">
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl w-full sm:max-w-lg relative z-10 shadow-2xl text-left flex flex-col" style={{ maxHeight: 'min(88vh, calc(100dvh - 16px))' }}>
             
             {/* Header — fixed, không scroll */}
             <div className="flex justify-between items-center px-4 sm:px-6 pt-5 pb-3 border-b border-zinc-100 dark:border-zinc-800 shrink-0">
@@ -447,8 +447,11 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                 </div>
               </div>
 
-              {/* Buttons — sticky ở đáy, KHÔNG bị scroll che */}
-              <div className="flex gap-3 px-4 sm:px-6 py-4 border-t border-zinc-100 dark:border-zinc-800 shrink-0">
+              {/* Buttons — sticky ở đáy, có safe-area padding */}
+              <div
+                className="flex gap-3 px-4 sm:px-6 pt-3 border-t border-zinc-100 dark:border-zinc-800 shrink-0"
+                style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom, 16px))' }}
+              >
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}

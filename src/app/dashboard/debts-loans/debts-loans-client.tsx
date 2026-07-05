@@ -473,97 +473,65 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
       {/* Add Debt/Loan Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center">
+        <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/60" onClick={() => setShowAddModal(false)} />
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-md relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl w-full sm:max-w-md relative z-10 shadow-2xl text-left flex flex-col" style={{ maxHeight: 'min(88vh, calc(100dvh - 16px))' }}>
+            {/* Header sticky */}
+            <div className="flex justify-between items-center px-5 pt-5 pb-3 border-b border-zinc-100 dark:border-zinc-800 shrink-0">
               <h3 className="text-lg font-bold text-slate-800 dark:text-white">Tạo khoản nợ / cho vay mới</h3>
-              <button onClick={() => setShowAddModal(false)} className="text-slate-450 hover:text-slate-655 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer">
+              <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 cursor-pointer">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form action={addFormAction} className="space-y-4">
-              {addState?.error && (
-                <div className="bg-rose-500/10 border border-rose-500/30 text-rose-650 dark:text-rose-400 text-xs px-4 py-3 rounded-xl flex items-center gap-2">
-                  <Info className="w-4 h-4 shrink-0" />
-                  <span>{addState.error}</span>
+            {/* Scrollable content */}
+            <form action={addFormAction} className="flex flex-col flex-1 overflow-hidden">
+              <div className="overflow-y-auto flex-1 px-5 py-4 space-y-3">
+                {addState?.error && (
+                  <div className="bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs px-3 py-2.5 rounded-xl flex items-center gap-2">
+                    <Info className="w-4 h-4 shrink-0" />
+                    <span>{addState.error}</span>
+                  </div>
+                )}
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400">Loại khoản nợ/cho vay</label>
+                  <select name="type" required className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 cursor-pointer">
+                    <option value="debt">Nợ cần trả (Mình nợ người ta)</option>
+                    <option value="loan">Cho vay cần đòi (Người ta nợ mình)</option>
+                  </select>
                 </div>
-              )}
 
-              {/* Type */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-550 dark:text-slate-400">Loại khoản nợ/cho vay</label>
-                <select
-                  name="type"
-                  required
-                  className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
-                >
-                  <option value="debt">Nợ cần trả (Mình nợ người ta)</option>
-                  <option value="loan">Cho vay cần đòi (Người ta nợ mình)</option>
-                </select>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400" htmlFor="partner_name">
+                    Tên người nợ / người cho vay <span className="text-rose-500">*</span>
+                  </label>
+                  <input id="partner_name" name="partner_name" type="text" placeholder="Ví dụ: Anh Ba, Ngân hàng ACB..." required className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500" />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400" htmlFor="total_amount">
+                    Tổng số tiền gốc <span className="text-rose-500">*</span>
+                  </label>
+                  <input id="total_amount-display" type="text" value={totalAmountInput} onChange={handleTotalAmountChange} placeholder="Ví dụ: 5,000,000" required className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500" />
+                  <input type="hidden" name="total_amount" value={rawTotalAmount} />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-slate-600 dark:text-slate-400" htmlFor="due_date">
+                    Hạn chót thanh toán <span className="text-rose-500">*</span>
+                  </label>
+                  <input id="due_date" name="due_date" type="date" required defaultValue={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]} className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 cursor-pointer" />
+                </div>
               </div>
 
-              {/* Partner Name */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-550 dark:text-slate-400" htmlFor="partner_name">
-                  Tên người nợ / người cho vay <span className="text-rose-500">*</span>
-                </label>
-                <input
-                  id="partner_name"
-                  name="partner_name"
-                  type="text"
-                  placeholder="Ví dụ: Anh Ba, Ngân hàng ACB..."
-                  required
-                  className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500"
-                />
-              </div>
-
-              {/* Total Amount */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-555 dark:text-slate-400" htmlFor="total_amount">
-                  Tổng số tiền gốc <span className="text-rose-500">*</span>
-                </label>
-                <input
-                  id="total_amount-display"
-                  type="text"
-                  value={totalAmountInput}
-                  onChange={handleTotalAmountChange}
-                  placeholder="Ví dụ: 5,000,000"
-                  required
-                  className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-650 focus:outline-none focus:border-indigo-500"
-                />
-                <input type="hidden" name="total_amount" value={rawTotalAmount} />
-              </div>
-
-              {/* Due Date */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-555 dark:text-slate-400" htmlFor="due_date">
-                  Hạn chót thanh toán <span className="text-rose-500">*</span>
-                </label>
-                <input
-                  id="due_date"
-                  name="due_date"
-                  type="date"
-                  required
-                  defaultValue={new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]} // Default 7 days from now
-                  className="w-full bg-zinc-100/40 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="flex-1 btn-glass font-semibold py-2.5 rounded-xl text-sm cursor-pointer"
-                >
-                  Hủy
-                </button>
-                <button
-                  type="submit"
-                  disabled={isPendingAdd}
-                  className="flex-1 bg-indigo-650 hover:bg-indigo-600 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.96]"
-                >
+              {/* Sticky buttons */}
+              <div
+                className="flex gap-3 px-5 pt-3 border-t border-zinc-100 dark:border-zinc-800 shrink-0"
+                style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom, 16px))' }}
+              >
+                <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-slate-200 font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-pointer">Hủy</button>
+                <button type="submit" disabled={isPendingAdd} className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-[0.97]">
                   {isPendingAdd ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Tạo khoản'}
                 </button>
               </div>
@@ -574,12 +542,12 @@ export default function DebtsLoansClient({ initialData }: { initialData: DebtLoa
 
       {/* Pay/Recover Payment Modal */}
       {showPayModal && selectedItem && (
-        <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center">
+        <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center">
           <div className="absolute inset-0 bg-black/60" onClick={() => {
             setShowPayModal(false)
             setSelectedItem(null)
           }} />
-          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-md relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl w-full sm:max-w-md relative z-10 shadow-2xl text-left flex flex-col" style={{ maxHeight: 'min(88vh, calc(100dvh - 16px))' }}>
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-slate-800 dark:text-white">
                 {selectedItem.type === 'debt' ? 'Trả bớt nợ' : 'Thu hồi bớt nợ'}
