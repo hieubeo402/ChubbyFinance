@@ -49,7 +49,7 @@ export default function NotificationBell({ notifications }: { notifications: Sys
 
       {/* Glassmorphic Dropdown Popover */}
       {isOpen && (
-        <div className="absolute right-0 top-12 w-80 sm:w-96 glass-card rounded-3xl p-4 shadow-2xl z-50 animate-scale-in text-left space-y-3 border border-white/60 dark:border-zinc-800/80 max-h-[80vh] overflow-y-auto">
+        <div className="absolute left-0 sm:left-auto sm:right-0 top-12 w-[calc(100vw-2rem)] sm:w-96 bg-white/95 dark:bg-zinc-950/98 backdrop-blur-3xl rounded-3xl p-4 shadow-2xl z-50 animate-scale-in text-left space-y-3 border border-zinc-200/80 dark:border-zinc-800/85 max-h-[80vh] overflow-y-auto">
           <div className="flex justify-between items-center pb-2 border-b border-zinc-100 dark:border-zinc-800/60">
             <h4 className="text-xs font-extrabold text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
               <Bell className="w-3.5 h-3.5 text-[#ec4899]" />

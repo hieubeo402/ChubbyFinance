@@ -162,8 +162,8 @@ export default async function DashboardPage() {
     notifications.push({
       id: 'daily-reminder',
       type: 'info',
-      title: '🐷 Ghi nhận giao dịch hôm nay',
-      message: 'Bạn chưa thêm giao dịch chi tiêu hoặc thu nhập nào cho ngày hôm nay. Hãy ghi chép lại ngay nhé!',
+      title: '🐷 Nhập giao dịch hôm nay',
+      message: 'Hôm nay chưa có giao dịch nào được ghi nhận.',
       color: 'pink',
     })
   }
@@ -173,8 +173,8 @@ export default async function DashboardPage() {
   notifications.push({
     id: 'report-reminder',
     type: 'report',
-    title: '📊 Nhắc nhở xem báo cáo tháng',
-    message: `Báo cáo tài chính tháng ${prevMonth} đã sẵn sàng. Hãy bấm vào Báo Cáo trên Menu để xem thống kê chi tiết!`,
+    title: '📊 Báo cáo tài chính tháng',
+    message: `Báo cáo tài chính tháng ${prevMonth} đã sẵn sàng trong mục Báo Cáo.`,
     color: 'indigo',
   })
 
