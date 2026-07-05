@@ -329,8 +329,8 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
       {/* Add Transaction Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
-          <div className="glass-card rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-lg relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowAddModal(false)} />
+          <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-t-3xl sm:rounded-3xl p-6 w-full sm:max-w-lg relative z-10 shadow-2xl text-left max-h-[92vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-slate-800 dark:text-white">Thêm giao dịch mới</h3>
               <button 
@@ -391,7 +391,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                     onChange={handleAmountChange}
                     placeholder="Ví dụ: 100,000"
                     required
-                    className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
+                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
                   />
                   <input type="hidden" name="amount" value={rawAmount} />
                 </div>
@@ -407,7 +407,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                     type="date"
                     required
                     defaultValue={new Date().toISOString().split('T')[0]}
-                    className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors"
                   />
                 </div>
               </div>
@@ -422,7 +422,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                   name="category"
                   value={formCategory}
                   onChange={(e) => setFormCategory(e.target.value)}
-                  className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer"
                 >
                   {formType === 'expense'
                     ? EXPENSE_CATEGORIES.map((cat) => (
@@ -448,7 +448,7 @@ export default function TransactionsClient({ initialTransactions }: { initialTra
                   name="description"
                   rows={3}
                   placeholder="Ví dụ: Ăn trưa với đồng nghiệp, Nhận lương tháng 7"
-                  className="w-full bg-zinc-550/10 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl py-2.5 px-3.5 text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
                 />
               </div>
 
