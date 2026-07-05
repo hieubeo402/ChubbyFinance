@@ -37,8 +37,7 @@ export default async function DashboardLayout({
 
       <div className="relative z-10 flex flex-col md:flex-row w-full min-h-screen">
         <DashboardSidebar username={username} />
-        {/* Added bottom padding pb-20 on mobile to prevent bottom navigation bar from overlapping content */}
-        <div className="flex-1 flex flex-col h-screen overflow-y-auto bg-slate-500/[0.01] dark:bg-zinc-950/[0.04] pb-20 md:pb-0 relative z-10">
+        <div className="flex-1 flex flex-col h-screen overflow-y-auto bg-slate-500/[0.01] dark:bg-zinc-950/[0.04] pb-20 md:pb-0 relative">
           {children}
         </div>
       </div>
